@@ -1,6 +1,5 @@
+import 'package:eam_domotic_frontend/shared/shared.module.dart';
 import 'package:flutter/material.dart';
-
-import 'shared/shared.module.dart';
 
 void main() {
   runApp(const MyApp());

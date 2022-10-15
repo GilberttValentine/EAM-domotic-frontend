@@ -1,7 +1,6 @@
+import 'package:eam_domotic_frontend/lights/light.module.dart';
 import 'package:eam_domotic_frontend/shared/shared.module.dart';
 import 'package:flutter/material.dart';
-
-import '../../lights/light.module.dart';
 
 class AppRoutes {
   static const initialRoute = 'lights';

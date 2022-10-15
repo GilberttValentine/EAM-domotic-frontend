@@ -1,5 +1,5 @@
+import 'package:eam_domotic_frontend/shared/shared.module.dart';
 import 'package:flutter/material.dart';
-import '../../shared/shared.module.dart';
 
 class LightScreen extends StatelessWidget {
   const LightScreen({Key? key}) : super(key: key);
