@@ -38,6 +38,11 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
 
+  flutter_launcher_icons: 
+   git:
+     url: https://github.com/Davenchy/flutter_launcher_icons.git
+     ref: fixMinSdkParseFlutter2.8
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -65,6 +70,7 @@ flutter:
      - assets/icons/icon-app.svg
      - assets/icons/logo-variant-2.svg
      - assets/icons/logo.svg
+     - assets/icons/icon-app.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
@@ -91,3 +97,7 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
+flutter_icons:
+ image_path: "assets/icon-app.png"
+ android: true
+ ios: true
