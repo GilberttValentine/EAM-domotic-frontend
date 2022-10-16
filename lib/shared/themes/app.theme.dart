@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class AppTheme {
   //Color Palette
@@ -17,11 +18,13 @@ class AppTheme {
   static const Color defaultHoverColor = Color(0xFF929292);
 
   //Font Family
-  static const String fontFamily = 'poppins';
+  static final TextStyle fontFamily = GoogleFonts.poppins();
 
   // Light Theme
   static final ThemeData lightTheme = ThemeData.light().copyWith(
-    textTheme: ThemeData.light().textTheme.apply(fontFamily: fontFamily),
+    textTheme: ThemeData.light().textTheme.apply(
+          fontFamily: fontFamily.fontFamily,
+        ),
     appBarTheme: const AppBarTheme(
       backgroundColor: appBackgroundColor,
       elevation: 0,
