@@ -22,6 +22,7 @@ class AppTheme {
 
   // Light Theme
   static final ThemeData lightTheme = ThemeData.light().copyWith(
+    primaryColor: primaryColor,
     textTheme: ThemeData.light().textTheme.apply(
           fontFamily: fontFamily.fontFamily,
         ),
