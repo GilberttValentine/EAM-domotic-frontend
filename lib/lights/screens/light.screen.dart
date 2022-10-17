@@ -6,10 +6,22 @@ class LightScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      appBar: CustomAppBar(),
-      body: Center(
-        child: Text('LightScreen'),
+    return HomeScreen(
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          const Center(
+            child: Text('LightScreen'),
+          ),
+          ElevatedButton(
+            child: const Text('Open Sheet'),
+            onPressed: () {
+              CustomDraggableBottomSheet.showCustomDraggableBottomSheet(
+                context,
+              );
+            },
+          )
+        ],
       ),
     );
   }
