@@ -12,7 +12,7 @@ class AppRoutes {
     AppRoute(route: '', name: 'Introduction', screen: const AppIntroScreen()),
     AppRoute(route: 'signIn', name: 'Sign In', screen: const SignInScreen()),
     AppRoute(route: 'signUp', name: 'Sign Up', screen: const SignUpScreen()),
-    //AppRoute(route: 'lights', name: 'Lights', screen: const LightScreen()),
+    AppRoute(route: 'lights', name: 'Lights', screen: const LightScreen()),
     //Route(route: 'notifications', name: 'Notifications', screen: screen),
     //Route(route: 'sensors', name: 'Sensors', screen: screen),
     //Route(route: 'log-in', name: 'Log-in', screen: screen),
