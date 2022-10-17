@@ -12,7 +12,7 @@ class AppIntroScreen extends StatelessWidget {
     final double screenHeight = MediaQuery.of(context).size.height;
 
     Timer(const Duration(seconds: 2), (() {
-      //Navigator.popAndPushNamed(context, 'signIn');
+      Navigator.popAndPushNamed(context, 'signIn');
     }));
 
     return Scaffold(
@@ -21,11 +21,11 @@ class AppIntroScreen extends StatelessWidget {
           return Container(
             width: screenWidth,
             height: screenHeight,
-            decoration:
-                const BoxDecoration(color: (AppTheme.appBackgroundColor)),
+            decoration: const BoxDecoration(
+                color: (AppTheme.appInitialBackgroundColor)),
             child: SafeArea(
                 child: Column(
-              children: [
+              children: <Widget>[
                 SizedBox(
                   width: constraints.maxWidth,
                   height: constraints.maxHeight * 0.9,
@@ -42,6 +42,7 @@ class AppIntroScreen extends StatelessWidget {
                             Text(
                               'DOM',
                               style: TextStyle(
+                                  fontFamily: AppTheme.logoFontFamily,
                                   fontSize: 20,
                                   fontWeight: FontWeight.bold,
                                   color: Color.fromRGBO(40, 104, 245, 1),
@@ -50,6 +51,7 @@ class AppIntroScreen extends StatelessWidget {
                             Text(
                               'O',
                               style: TextStyle(
+                                  fontFamily: AppTheme.logoFontFamily,
                                   fontSize: 20,
                                   fontWeight: FontWeight.bold,
                                   color: Color.fromRGBO(199, 69, 69, 1),
@@ -58,6 +60,7 @@ class AppIntroScreen extends StatelessWidget {
                             Text(
                               'TICSOFT',
                               style: TextStyle(
+                                  fontFamily: AppTheme.logoFontFamily,
                                   fontSize: 20,
                                   fontWeight: FontWeight.bold,
                                   color: Color.fromRGBO(40, 104, 245, 1),

@@ -9,7 +9,7 @@ class AppTheme {
   static const Color dangerColor = Color(0xFFEB5353);
   static const Color defaultColor = Color(0xFFD9D9D9);
   static const Color appBackgroundColor = Color(0xFFEFEFF1);
-
+  static const Color appInitialBackgroundColor = Color(0xFFFFFFFF);
   //Hover Color Palette
   static const Color primaryHoverColor = Color(0xFF436ECC);
   static const Color successHoverColor = Color(0xFF31986D);
@@ -18,13 +18,14 @@ class AppTheme {
   static const Color defaultHoverColor = Color(0xFF929292);
 
   //Font Family
-  static final TextStyle fontFamily = GoogleFonts.poppins();
+  static const String poppinsFontFamily = "Poppins";
+  static const String logoFontFamily = "Sansation";
 
   // Light Theme
   static final ThemeData lightTheme = ThemeData.light().copyWith(
     primaryColor: primaryColor,
     textTheme: ThemeData.light().textTheme.apply(
-          fontFamily: fontFamily.fontFamily,
+          fontFamily: poppinsFontFamily,
         ),
     appBarTheme: const AppBarTheme(
       backgroundColor: appBackgroundColor,
