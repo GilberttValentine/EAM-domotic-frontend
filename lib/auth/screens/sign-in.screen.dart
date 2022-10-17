@@ -16,11 +16,10 @@ class _SignInScreenState extends State<SignInScreen>
   TextEditingController password = TextEditingController();
 
   bool _isObscure = true;
-  bool passwordHasFocused = false;
-  bool signInTap = false;
+  bool _signInTap = false;
 
-  bool hasErrors = false;
-  bool loading = false;
+  bool _hasErrors = false;
+  bool _loading = false;
 
   @override
   Widget build(BuildContext context) {
@@ -45,28 +44,26 @@ class _SignInScreenState extends State<SignInScreen>
       setState(() {
         username.text = '';
         password.text = '';
-        passwordHasFocused = false;
-        signInTap = false;
-        hasErrors = false;
-        loading = false;
+        _signInTap = false;
+        _hasErrors = false;
+        _loading = false;
       });
     }
 
     void signInTapFunction(status) {
-      if (loading != true) {
+      if (_loading != true) {
         setState(() {
-          signInTap = status;
+          _signInTap = status;
         });
       }
     }
 
     void signIn() async {
-      if (loading != true) {
+      if (_loading != true) {
         setState(() {
-          signInTap = true;
-          loading = true;
-          passwordHasFocused = false;
-          hasErrors = false;
+          _signInTap = true;
+          _loading = true;
+          _hasErrors = false;
           FocusManager.instance.primaryFocus?.unfocus();
         });
 
@@ -74,7 +71,7 @@ class _SignInScreenState extends State<SignInScreen>
           if (username.text == '' || password.text == '') {
             showSnackBar('Invalid credentials', 'failed');
             setState(() {
-              hasErrors = true;
+              _hasErrors = true;
             });
           } else {
             if (username.text == 'GilberttValentine' &&
@@ -85,14 +82,14 @@ class _SignInScreenState extends State<SignInScreen>
               showSnackBar('Invalid credentials', 'failed');
               setState(() {
                 password.text = '';
-                hasErrors = true;
+                _hasErrors = true;
               });
             }
           }
 
           setState(() {
-            loading = false;
-            signInTap = false;
+            _loading = false;
+            _signInTap = false;
           });
         }));
       }
@@ -195,13 +192,12 @@ class _SignInScreenState extends State<SignInScreen>
                   cursorColor: AppTheme.primaryColor,
                   onTap: () {
                     setState(() {
-                      hasErrors = false;
-                      passwordHasFocused = false;
+                      _hasErrors = false;
                     });
                   },
                   decoration: InputDecoration(
                       errorStyle: const TextStyle(fontSize: 0),
-                      errorText: hasErrors == true ? '' : null,
+                      errorText: _hasErrors == true ? '' : null,
                       contentPadding: const EdgeInsets.fromLTRB(15, 15, 15, 15),
                       border: const OutlineInputBorder(
                           borderRadius: BorderRadius.all(Radius.circular(10))),
@@ -213,7 +209,7 @@ class _SignInScreenState extends State<SignInScreen>
                 ),
                 Padding(
                     padding: EdgeInsets.only(
-                        top: hasErrors == true ? 31 : 40, bottom: 5),
+                        top: _hasErrors == true ? 31 : 40, bottom: 5),
                     child: Container(
                       alignment: Alignment.topLeft,
                       child: const Text(
@@ -224,7 +220,7 @@ class _SignInScreenState extends State<SignInScreen>
                     )),
                 Padding(
                     padding:
-                        EdgeInsets.only(bottom: hasErrors == true ? 41 : 50),
+                        EdgeInsets.only(bottom: _hasErrors == true ? 41 : 50),
                     child: TextField(
                       style: const TextStyle(fontSize: 16),
                       obscureText: _isObscure,
@@ -233,13 +229,12 @@ class _SignInScreenState extends State<SignInScreen>
                       cursorColor: AppTheme.primaryColor,
                       onTap: () {
                         setState(() {
-                          hasErrors = false;
-                          passwordHasFocused = true;
+                          _hasErrors = false;
                         });
                       },
                       decoration: InputDecoration(
                         errorStyle: const TextStyle(fontSize: 0),
-                        errorText: hasErrors == true ? '' : null,
+                        errorText: _hasErrors == true ? '' : null,
                         contentPadding:
                             const EdgeInsets.fromLTRB(15, 15, 15, 15),
                         border: const OutlineInputBorder(
@@ -270,7 +265,7 @@ class _SignInScreenState extends State<SignInScreen>
                       width: constraints.maxWidth,
                       height: 65,
                       decoration: BoxDecoration(
-                        color: loading == true
+                        color: _loading == true
                             ? AppTheme.primaryHoverColor
                             : Colors.white,
                         border: Border.all(color: AppTheme.primaryHoverColor),
@@ -303,7 +298,7 @@ class _SignInScreenState extends State<SignInScreen>
                                   child: Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: <Widget>[
-                                  if (loading == true)
+                                  if (_loading == true)
                                     const SizedBox(
                                       width: 20,
                                       height: 20,
@@ -312,13 +307,13 @@ class _SignInScreenState extends State<SignInScreen>
                                     ),
                                   Padding(
                                     padding: EdgeInsets.only(
-                                        left: loading == true ? 10 : 0,
-                                        right: loading == true ? 30 : 0),
+                                        left: _loading == true ? 10 : 0,
+                                        right: _loading == true ? 30 : 0),
                                     child: Text(
                                       'Sign In',
                                       style: TextStyle(
                                           fontSize: 16,
-                                          color: signInTap == true
+                                          color: _signInTap == true
                                               ? Colors.white
                                               : Colors.black),
                                     ),
