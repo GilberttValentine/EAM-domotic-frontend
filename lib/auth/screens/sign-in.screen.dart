@@ -24,9 +24,6 @@ class _SignInScreenState extends State<SignInScreen>
 
   @override
   Widget build(BuildContext context) {
-    final double screenWidth = MediaQuery.of(context).size.width;
-    final double screenHeight = MediaQuery.of(context).size.height;
-
     void showSnackBar(String message, String status) {
       var snackBar = SnackBar(
         backgroundColor: status == 'failed'
@@ -107,8 +104,8 @@ class _SignInScreenState extends State<SignInScreen>
         resizeToAvoidBottomInset: false,
         body: LayoutBuilder(builder: (context, constraints) {
           return Container(
-            width: screenWidth,
-            height: screenHeight,
+            width: constraints.maxWidth,
+            height: constraints.maxHeight,
             decoration:
                 const BoxDecoration(color: AppTheme.appInitialBackgroundColor),
             child: SafeArea(

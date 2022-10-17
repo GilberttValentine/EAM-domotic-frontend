@@ -8,9 +8,6 @@ class AppIntroScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final double screenWidth = MediaQuery.of(context).size.width;
-    final double screenHeight = MediaQuery.of(context).size.height;
-
     Timer(const Duration(seconds: 2), (() {
       Navigator.popAndPushNamed(context, 'signIn');
     }));
@@ -19,8 +16,8 @@ class AppIntroScreen extends StatelessWidget {
       body: LayoutBuilder(
         builder: (context, constraints) {
           return Container(
-            width: screenWidth,
-            height: screenHeight,
+            width: constraints.maxWidth,
+            height: constraints.maxHeight,
             decoration: const BoxDecoration(
                 color: (AppTheme.appInitialBackgroundColor)),
             child: SafeArea(
