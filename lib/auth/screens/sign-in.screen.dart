@@ -110,7 +110,7 @@ class _SignInScreenState extends State<SignInScreen>
                     child: SingleChildScrollView(
                       scrollDirection: Axis.vertical,
                       child: Container(
-                        padding: const EdgeInsets.fromLTRB(25, 50, 25, 50),
+                        padding: const EdgeInsets.fromLTRB(25, 40, 25, 40),
                         child: Column(children: <Widget>[
                           SizedBox(
                             width: 392.72727272727275,
@@ -180,7 +180,7 @@ class _SignInScreenState extends State<SignInScreen>
                           ),
                           Container(
                             width: 392.72727272727275,
-                            padding: const EdgeInsets.only(top: 60, bottom: 5),
+                            padding: const EdgeInsets.only(top: 40, bottom: 5),
                             alignment: Alignment.topLeft,
                             child: const Text(
                               'Username',
@@ -219,7 +219,7 @@ class _SignInScreenState extends State<SignInScreen>
                           Container(
                             width: 392.72727272727275,
                             padding: EdgeInsets.only(
-                                top: 40 - (_hasErrors == true ? 9 : 0),
+                                top: 30 - (_hasErrors == true ? 9 : 0),
                                 bottom: 5),
                             alignment: Alignment.topLeft,
                             child: const Text(

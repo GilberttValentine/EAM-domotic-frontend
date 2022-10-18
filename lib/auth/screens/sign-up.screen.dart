@@ -312,7 +312,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           ),
                           Container(
                             padding: EdgeInsets.only(
-                                top: 40 - (_hasErrors == true ? 9 : 0),
+                                top: 50 - (_hasErrors == true ? 9 : 0),
                                 bottom: 15),
                             child: Container(
                               width: 392.72727272727275,
