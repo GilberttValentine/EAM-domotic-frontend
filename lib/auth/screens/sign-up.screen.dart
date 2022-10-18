@@ -389,7 +389,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                       const EdgeInsets.fromLTRB(0, 0, 5, 0),
                                   child: const Text(
                                     'Already have account?',
-                                    style: TextStyle(),
                                   ),
                                 ),
                                 InkWell(

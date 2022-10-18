@@ -353,7 +353,6 @@ class _SignInScreenState extends State<SignInScreen>
                                       const EdgeInsets.fromLTRB(0, 0, 5, 0),
                                   child: const Text(
                                     "Don't have an account?",
-                                    style: TextStyle(),
                                   ),
                                 ),
                                 InkWell(
