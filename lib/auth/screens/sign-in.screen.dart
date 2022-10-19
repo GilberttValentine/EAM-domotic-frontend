@@ -77,8 +77,8 @@ class _SignInScreenState extends State<SignInScreen>
               hasErrors = true;
             });
           } else {
-            if (username.text == 'GilberttValentine' &&
-                password.text == 'manuteam2022') {
+            if (username.text == '123' &&
+                password.text == '123') {
               showSnackBar('Welcome Back ${username.text}', 'success');
               Navigator.popAndPushNamed(context, 'lights');
             } else {

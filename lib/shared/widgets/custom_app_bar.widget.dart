@@ -14,7 +14,9 @@ class CustomAppBar extends StatelessWidget with PreferredSizeWidget {
           Icons.menu,
           color: Colors.black,
         ),
-        onPressed: () {},
+        onPressed: () {
+          Navigator.pushNamed(context, 'notifications');
+        },
       ),
     );
   }
