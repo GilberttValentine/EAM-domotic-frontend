@@ -12,6 +12,7 @@ class HomeScreen extends StatelessWidget {
       appBar: const CustomAppBar(),
       drawer: const CustomDrawer(),
       body: body,
+      resizeToAvoidBottomInset: false,
     );
   }
 }

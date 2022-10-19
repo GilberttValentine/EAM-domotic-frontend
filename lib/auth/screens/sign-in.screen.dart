@@ -197,6 +197,8 @@ class _SignInScreenState extends State<SignInScreen>
                           child: InkWell(
                               onTap: () {
                                 //Navigator.pushNamed(context, 'signUp');
+                                Navigator.pushReplacementNamed(
+                                    context, 'lights');
                               },
                               highlightColor:
                                   AppTheme.primaryHoverColor.withOpacity(0.5),

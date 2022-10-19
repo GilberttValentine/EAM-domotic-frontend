@@ -14,20 +14,35 @@ class AppRoutes {
       route: 'lights',
       name: 'Lights',
       screen: const LightScreen(),
+      drawerNavigable: true,
     ),
     AppRoute(
       route: 'notifications',
       name: 'Notifications',
       screen: const NotificationScreen(),
+      drawerNavigable: true,
     ),
     AppRoute(
       route: 'sensors',
       name: 'Sensors',
       screen: const SensorScreen(),
+      drawerNavigable: true,
     ),
-    AppRoute(route: '', name: 'Introduction', screen: const AppIntroScreen()),
-    AppRoute(route: 'signIn', name: 'Sign In', screen: const SignInScreen()),
-    AppRoute(route: 'signUp', name: 'Sign Up', screen: const SignUpScreen()),
+    AppRoute(
+      route: '',
+      name: 'Introduction',
+      screen: const AppIntroScreen(),
+    ),
+    AppRoute(
+      route: 'signIn',
+      name: 'Sign In',
+      screen: const SignInScreen(),
+    ),
+    AppRoute(
+      route: 'signUp',
+      name: 'Sign Up',
+      screen: const SignUpScreen(),
+    ),
   ];
 
   static Map<String, Widget Function(BuildContext)> getAppRoutes() {

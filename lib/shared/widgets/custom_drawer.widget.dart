@@ -9,36 +9,83 @@ class CustomDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(
-      builder: (context, constrains) => Drawer(
-        width: constrains.maxWidth * 0.8,
+      builder: (context, constraints) => Drawer(
+        width: constraints.maxWidth * 0.8,
         elevation: 0,
         backgroundColor: Colors.white,
         child: SafeArea(
           child: Column(
             children: [
-              const SizedBox(
-                height: 200,
+              SizedBox(
+                height: 140,
                 width: double.infinity,
                 child: Center(
-                  child: Text('DOMOTICSOFT'),
+                  child: SizedBox(
+                    height: constraints.maxHeight * 0.062,
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisSize: MainAxisSize.min,
+                      children: <Widget>[
+                        Padding(
+                          padding: const EdgeInsets.fromLTRB(0, 0, 10, 0),
+                          child: Image.asset(
+                            'assets/icons/icon-app.png',
+                          ),
+                        ),
+                        const Text(
+                          'DOM',
+                          style: TextStyle(
+                              fontFamily: AppTheme.logoFontFamily,
+                              fontSize: 17,
+                              fontWeight: FontWeight.bold,
+                              color: Color.fromRGBO(40, 104, 245, 1),
+                              letterSpacing: -0.4),
+                        ),
+                        const Text(
+                          'O',
+                          style: TextStyle(
+                              fontFamily: AppTheme.logoFontFamily,
+                              fontSize: 17,
+                              fontWeight: FontWeight.bold,
+                              color: Color.fromRGBO(199, 69, 69, 1),
+                              letterSpacing: -0.4),
+                        ),
+                        const Text(
+                          'TICSOFT',
+                          style: TextStyle(
+                              fontFamily: AppTheme.logoFontFamily,
+                              fontSize: 17,
+                              fontWeight: FontWeight.bold,
+                              color: Color.fromRGBO(40, 104, 245, 1),
+                              letterSpacing: -0.4),
+                        )
+                      ],
+                    ),
+                  ),
                 ),
               ),
-              ListView.builder(
+              ListView(
                 shrinkWrap: true,
-                itemBuilder: (BuildContext context, int index) => MenuOption(
-                  route: AppRoutes.routes[index],
-                ),
-                itemCount: AppRoutes.routes.length,
+                children: [
+                  ...AppRoutes.routes.map((route) => route.drawerNavigable
+                      ? MenuOption(
+                          route: route,
+                        )
+                      : const SizedBox.shrink()),
+                ],
               ),
               Expanded(
                 child: Align(
                   alignment: Alignment.bottomCenter,
                   child: CustomOutlineButton(
+                    onTap: () =>
+                        Navigator.pushReplacementNamed(context, 'signIn'),
                     color: AppTheme.dangerColor,
                     height: 65,
-                    width: constrains.maxWidth,
+                    width: constraints.maxWidth,
                     horizontalMargin: 35,
                     verticalMargin: 40,
+                    text: 'Sign Out',
                   ),
                 ),
               ),
