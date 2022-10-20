@@ -13,7 +13,7 @@ class AppRoutes {
     AppRoute(
       route: 'lights',
       name: 'Lights',
-      screen: LightScreen(),
+      screen: const LightScreen(),
       drawerNavigable: true,
     ),
     AppRoute(

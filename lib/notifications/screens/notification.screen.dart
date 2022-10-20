@@ -200,7 +200,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
               style: TextStyle(
                   fontFamily: AppTheme.poppinsFontFamily,
                   fontSize: 26,
-                  fontWeight: FontWeight.bold),
+                  fontWeight: FontWeight.w600),
             ),
           ),
           Expanded(

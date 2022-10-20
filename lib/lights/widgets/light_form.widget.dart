@@ -1,12 +1,17 @@
+import 'package:eam_domotic_frontend/lights/light.module.dart';
 import 'package:eam_domotic_frontend/shared/shared.module.dart';
 import 'package:flutter/material.dart';
 
 class LightForm extends StatefulWidget {
+  final Function() notifyParent;
   final GlobalKey<FormState> formKey;
+  Lights light;
 
-  const LightForm({
+  LightForm({
     Key? key,
     required this.formKey,
+    required this.light,
+    required this.notifyParent,
   }) : super(key: key);
 
   @override
@@ -14,8 +19,6 @@ class LightForm extends StatefulWidget {
 }
 
 class _LightFormState extends State<LightForm> {
-  late String _name;
-
   @override
   Widget build(BuildContext context) {
     return Form(
@@ -32,7 +35,11 @@ class _LightFormState extends State<LightForm> {
             ),
           ),
           TextFormField(
-            onSaved: (value) => _name = value!,
+            initialValue: widget.light.name,
+            onSaved: (value) {
+              widget.light.name = value!;
+              widget.notifyParent();
+            },
             validator: (value) {
               if (value == null || value.isEmpty) {
                 return 'Please enter a name';
