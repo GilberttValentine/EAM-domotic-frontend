@@ -4,7 +4,6 @@ import 'package:eam_domotic_frontend/lights/light.module.dart';
 import 'package:eam_domotic_frontend/notifications/screens/notification.screen.dart';
 import 'package:eam_domotic_frontend/sensors/screens/sensor.screen.dart';
 import 'package:eam_domotic_frontend/app-intro/app-intro.module.dart';
-import 'package:eam_domotic_frontend/notifications/screens/notification.screen.dart';
 import 'package:eam_domotic_frontend/shared/shared.module.dart';
 import 'package:flutter/material.dart';
 

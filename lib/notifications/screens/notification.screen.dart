@@ -38,12 +38,15 @@ class _NotificationScreenState extends State<NotificationScreen> {
             size: 100,
             color: Color.fromRGBO(0, 0, 0, 0.5),
           ),
-          Text("You don't have any notification",
-              style: TextStyle(
-                  fontFamily: AppTheme.poppinsFontFamily,
-                  fontSize: 20,
-                  fontWeight: FontWeight.w400,
-                  color: Color.fromRGBO(0, 0, 0, 0.6)))
+          Text(
+            "You don't have any notification",
+            style: TextStyle(
+              fontFamily: AppTheme.poppinsFontFamily,
+              fontSize: 20,
+              fontWeight: FontWeight.w400,
+              color: Color.fromRGBO(0, 0, 0, 0.6),
+            ),
+          )
         ],
       ),
     );
@@ -51,32 +54,36 @@ class _NotificationScreenState extends State<NotificationScreen> {
 
   Widget showList() {
     return Container(
-      decoration: const BoxDecoration(boxShadow: [
-        BoxShadow(
-          color: Color.fromRGBO(0, 0, 0, 0.05),
-          offset: Offset(0, 5),
-          blurRadius: 15,
-          spreadRadius: 0,
-        )
-      ]),
+      decoration: const BoxDecoration(
+        boxShadow: [
+          BoxShadow(
+            color: Color.fromRGBO(0, 0, 0, 0.05),
+            offset: Offset(0, 5),
+            blurRadius: 15,
+            spreadRadius: 0,
+          )
+        ],
+      ),
       child: ListView.builder(
-          itemCount: notifications.length,
-          padding: const EdgeInsets.all(10),
-          itemBuilder: (BuildContext ctx, int index) {
-            return rowItem(context, index);
-          }),
+        itemCount: notifications.length,
+        padding: const EdgeInsets.all(10),
+        itemBuilder: (BuildContext ctx, int index) {
+          return rowItem(context, index);
+        },
+      ),
     );
   }
 
   Widget rowItem(context, index) {
     return Dismissible(
-        key: Key(notifications[index].title),
-        onDismissed: (direction) {
-          removeNotification(index);
-        },
-        secondaryBackground: deleteRigth(),
-        background: deleteLeft(),
-        child: notificationCard(context, index));
+      key: Key(notifications[index].title),
+      onDismissed: (direction) {
+        removeNotification(index);
+      },
+      secondaryBackground: deleteRigth(),
+      background: deleteLeft(),
+      child: notificationCard(context, index),
+    );
   }
 
   Widget deleteLeft() {
@@ -85,8 +92,9 @@ class _NotificationScreenState extends State<NotificationScreen> {
       margin: const EdgeInsets.only(bottom: 20),
       padding: const EdgeInsets.only(left: 100),
       decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(15),
-          color: const Color.fromRGBO(235, 83, 83, 1)),
+        borderRadius: BorderRadius.circular(15),
+        color: const Color.fromRGBO(235, 83, 83, 1),
+      ),
       child: const Text(
         'Discard',
         style: TextStyle(
@@ -104,8 +112,9 @@ class _NotificationScreenState extends State<NotificationScreen> {
       margin: const EdgeInsets.only(bottom: 20),
       padding: const EdgeInsets.only(right: 100),
       decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(15),
-          color: const Color.fromRGBO(235, 83, 83, 1)),
+        borderRadius: BorderRadius.circular(15),
+        color: const Color.fromRGBO(235, 83, 83, 1),
+      ),
       child: const Text(
         'Discard',
         style: TextStyle(
@@ -185,12 +194,14 @@ class _NotificationScreenState extends State<NotificationScreen> {
         children: [
           const Padding(
             padding: EdgeInsets.only(left: 20, bottom: 25),
-            child: Text('Notifications',
-                textAlign: TextAlign.end,
-                style: TextStyle(
-                    fontFamily: AppTheme.poppinsFontFamily,
-                    fontSize: 26,
-                    fontWeight: FontWeight.bold)),
+            child: Text(
+              'Notifications',
+              textAlign: TextAlign.end,
+              style: TextStyle(
+                  fontFamily: AppTheme.poppinsFontFamily,
+                  fontSize: 26,
+                  fontWeight: FontWeight.bold),
+            ),
           ),
           Expanded(
             child: notificationsList(),
