@@ -9,30 +9,8 @@ class LightScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return HomeScreen(
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          const Center(
-            child: Text('LightScreen'),
-          ),
-          ElevatedButton(
-            child: const Text('Open Sheet'),
-            onPressed: () {
-              CustomBottomSheet.showCustomBottomSheet(
-                context: context,
-                title: 'Edit LED',
-                body: LightForm(
-                  formKey: _formKey,
-                ),
-                aditionalButton: EditButton(
-                  formKey: _formKey,
-                ),
-              );
-            },
-          )
-        ],
-      ),
+    return const HomeScreen(
+      body: ListLights(),
     );
   }
 }
