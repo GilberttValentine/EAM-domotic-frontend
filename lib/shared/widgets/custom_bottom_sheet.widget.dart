@@ -60,7 +60,7 @@ class CustomBottomSheet {
                             ? const CancelButton()
                             : const Expanded(child: CancelButton()),
                         if (aditionalButton != null)
-                          Expanded(child: aditionalButton!),
+                          Expanded(child: aditionalButton),
                       ],
                     ),
                   ],
