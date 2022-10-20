@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class AppTheme {
   //Color Palette
@@ -16,6 +15,8 @@ class AppTheme {
   static const Color warningHoverColor = Color(0xFFDCC020);
   static const Color dangerHoverColor = Color(0xFFC74545);
   static const Color defaultHoverColor = Color(0xFF929292);
+
+  static const Color defaultSnackBarColor = Color.fromARGB(255, 40, 40, 40);
 
   //Font Family
   static const String poppinsFontFamily = "Poppins";

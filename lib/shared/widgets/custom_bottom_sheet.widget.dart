@@ -16,53 +16,58 @@ class CustomBottomSheet {
           top: Radius.circular(30),
         ),
       ),
-      builder: (context) => LayoutBuilder(
-        builder: (context, constraints) => Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Container(
-              margin: const EdgeInsets.only(top: 15),
-              child: DecoratedBox(
-                decoration: BoxDecoration(
-                  color: AppTheme.defaultColor.withOpacity(0.7),
-                  shape: BoxShape.rectangle,
-                  borderRadius: BorderRadius.circular(20),
-                ),
-                child: SizedBox(
-                  width: constraints.maxWidth * 0.35,
-                  height: 5,
+      builder: (context) => Padding(
+        padding: EdgeInsets.only(
+          bottom: MediaQuery.of(context).viewInsets.bottom,
+        ),
+        child: LayoutBuilder(
+          builder: (context, constraints) => Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Container(
+                margin: const EdgeInsets.only(top: 15),
+                child: DecoratedBox(
+                  decoration: BoxDecoration(
+                    color: AppTheme.defaultColor.withOpacity(0.7),
+                    shape: BoxShape.rectangle,
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  child: SizedBox(
+                    width: constraints.maxWidth * 0.35,
+                    height: 5,
+                  ),
                 ),
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.fromLTRB(35, 15, 35, 30),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  SheetTitle(
-                    title: title,
-                  ),
-                  Container(
-                    margin: const EdgeInsets.only(
-                      bottom: 30,
+              Padding(
+                padding: const EdgeInsets.fromLTRB(35, 15, 35, 30),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    SheetTitle(
+                      title: title,
                     ),
-                    constraints: BoxConstraints(
-                        maxHeight: (constraints.maxHeight * 0.8) - 41 - 65),
-                    child: body,
-                  ),
-                  Row(
-                    children: [
-                      aditionalButton == null
-                          ? const CancelButton()
-                          : const Expanded(child: CancelButton()),
-                      if (aditionalButton != null)
-                        Expanded(child: aditionalButton!),
-                    ],
-                  ),
-                ],
+                    Container(
+                      margin: const EdgeInsets.only(
+                        bottom: 30,
+                      ),
+                      constraints: BoxConstraints(
+                          maxHeight: (constraints.maxHeight * 0.8) - 41 - 65),
+                      child: body,
+                    ),
+                    Row(
+                      children: [
+                        aditionalButton == null
+                            ? const CancelButton()
+                            : const Expanded(child: CancelButton()),
+                        if (aditionalButton != null)
+                          Expanded(child: aditionalButton!),
+                      ],
+                    ),
+                  ],
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
