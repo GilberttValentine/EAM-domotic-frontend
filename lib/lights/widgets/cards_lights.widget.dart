@@ -1,5 +1,4 @@
-import 'package:eam_domotic_frontend/lights/models/light.model.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:eam_domotic_frontend/lights/light.module.dart';
 import 'package:flutter/material.dart';
 
 class CardLights extends StatefulWidget {
