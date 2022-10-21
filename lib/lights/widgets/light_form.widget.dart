@@ -90,7 +90,7 @@ class EditButton extends StatelessWidget {
         onTap: () {
           if (formKey.currentState!.validate()) {
             formKey.currentState!.save();
-            FocusScope.of(context).unfocus();
+            Navigator.pop(context);
           }
         },
         color: AppTheme.primaryHoverColor,
@@ -98,6 +98,7 @@ class EditButton extends StatelessWidget {
         textColor: Colors.white,
         text: 'Edit',
         width: MediaQuery.of(context).size.width * 0.5,
+        isLoader: true,
       ),
     );
   }

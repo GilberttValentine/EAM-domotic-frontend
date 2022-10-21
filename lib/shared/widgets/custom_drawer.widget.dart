@@ -74,23 +74,39 @@ class CustomDrawer extends StatelessWidget {
                       : const SizedBox.shrink()),
                 ],
               ),
-              Expanded(
-                child: Align(
-                  alignment: Alignment.bottomCenter,
-                  child: CustomOutlineButton(
-                    onTap: () =>
-                        Navigator.pushReplacementNamed(context, 'signIn'),
-                    color: AppTheme.dangerColor,
-                    height: 65,
-                    width: constraints.maxWidth,
-                    horizontalMargin: 35,
-                    verticalMargin: 40,
-                    text: 'Sign Out',
-                  ),
-                ),
+              SignOutButton(
+                constraints: constraints,
               ),
             ],
           ),
+        ),
+      ),
+    );
+  }
+}
+
+class SignOutButton extends StatelessWidget {
+  final BoxConstraints constraints;
+
+  const SignOutButton({
+    Key? key,
+    required this.constraints,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Expanded(
+      child: Align(
+        alignment: Alignment.bottomCenter,
+        child: CustomOutlineButton(
+          onTap: () => Navigator.pushReplacementNamed(context, 'signIn'),
+          color: AppTheme.dangerColor,
+          height: 65,
+          width: constraints.maxWidth,
+          horizontalMargin: 35,
+          verticalMargin: 40,
+          text: 'Sign Out',
+          isLoader: true,
         ),
       ),
     );

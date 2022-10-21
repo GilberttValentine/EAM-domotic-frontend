@@ -72,7 +72,7 @@ class _CardLightsState extends State<CardLights> {
                     );
                   },
                 ),
-              )
+              ),
             ],
           ),
         ),
