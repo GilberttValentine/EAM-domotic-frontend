@@ -7,8 +7,7 @@ class LightScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      appBar: CustomAppBar(),
+    return const HomeScreen(
       body: ListLights(),
     );
   }

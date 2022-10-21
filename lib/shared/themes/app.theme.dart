@@ -25,12 +25,14 @@ class AppTheme {
   // Light Theme
   static final ThemeData lightTheme = ThemeData.light().copyWith(
     primaryColor: primaryColor,
+    primaryIconTheme: const IconThemeData(color: Colors.black),
     textTheme: ThemeData.light().textTheme.apply(
           fontFamily: poppinsFontFamily,
         ),
     appBarTheme: const AppBarTheme(
       backgroundColor: appBackgroundColor,
       elevation: 0,
+      toolbarHeight: 80,
     ),
     scaffoldBackgroundColor: appBackgroundColor,
   );

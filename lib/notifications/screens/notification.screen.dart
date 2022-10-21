@@ -1,4 +1,5 @@
 import 'package:eam_domotic_frontend/notifications/models/notification.model.dart';
+import 'package:eam_domotic_frontend/notifications/notifications.module.dart';
 import 'package:eam_domotic_frontend/notifications/services/notification.service.dart';
 import 'package:eam_domotic_frontend/shared/shared.module.dart';
 import 'package:flutter/material.dart';
@@ -11,16 +12,15 @@ class NotificationScreen extends StatefulWidget {
 }
 
 class _NotificationScreenState extends State<NotificationScreen> {
-
   List<NotificationApp> notifications = NotificationService.getNotifications();
 
   removeNotification(index) {
     notifications.removeAt(index);
-    setState(() { });
+    setState(() {});
   }
 
   Widget notificationsList() {
-    if(notifications.isEmpty) {
+    if (notifications.isEmpty) {
       return noNotifications();
     } else {
       return showList();
@@ -44,8 +44,8 @@ class _NotificationScreenState extends State<NotificationScreen> {
               fontFamily: AppTheme.poppinsFontFamily,
               fontSize: 20,
               fontWeight: FontWeight.w400,
-              color: Color.fromRGBO(0, 0, 0, 0.6)
-            )
+              color: Color.fromRGBO(0, 0, 0, 0.6),
+            ),
           )
         ],
       ),
@@ -55,33 +55,35 @@ class _NotificationScreenState extends State<NotificationScreen> {
   Widget showList() {
     return Container(
       decoration: const BoxDecoration(
-          boxShadow: [
-            BoxShadow(
-              color: Color.fromRGBO(0, 0, 0, 0.05),
-              offset: Offset(0, 5),
-              blurRadius: 15,
-              spreadRadius: 0,
-            )
-          ]
-        ),
+        boxShadow: [
+          BoxShadow(
+            color: Color.fromRGBO(0, 0, 0, 0.05),
+            offset: Offset(0, 5),
+            blurRadius: 15,
+            spreadRadius: 0,
+          )
+        ],
+      ),
       child: ListView.builder(
-          itemCount: notifications.length,
-          padding: const EdgeInsets.all(10),
-          itemBuilder: (BuildContext ctx, int index) {
-            return rowItem(context, index);
-          }),
+        itemCount: notifications.length,
+        padding: const EdgeInsets.all(10),
+        itemBuilder: (BuildContext ctx, int index) {
+          return rowItem(context, index);
+        },
+      ),
     );
   }
 
   Widget rowItem(context, index) {
     return Dismissible(
-        key: Key(notifications[index].title),
-        onDismissed: (direction) {
-          removeNotification(index);
-        },
-        secondaryBackground: deleteRigth(),
-        background: deleteLeft(),
-        child: notificationCard(context, index));
+      key: Key(notifications[index].title),
+      onDismissed: (direction) {
+        removeNotification(index);
+      },
+      secondaryBackground: deleteRigth(),
+      background: deleteLeft(),
+      child: notificationCard(context, index),
+    );
   }
 
   Widget deleteLeft() {
@@ -90,7 +92,9 @@ class _NotificationScreenState extends State<NotificationScreen> {
       margin: const EdgeInsets.only(bottom: 20),
       padding: const EdgeInsets.only(left: 100),
       decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(15), color: const Color.fromRGBO(235, 83, 83, 1)),
+        borderRadius: BorderRadius.circular(15),
+        color: const Color.fromRGBO(235, 83, 83, 1),
+      ),
       child: const Text(
         'Discard',
         style: TextStyle(
@@ -108,7 +112,9 @@ class _NotificationScreenState extends State<NotificationScreen> {
       margin: const EdgeInsets.only(bottom: 20),
       padding: const EdgeInsets.only(right: 100),
       decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(15), color: const Color.fromRGBO(235, 83, 83, 1)),
+        borderRadius: BorderRadius.circular(15),
+        color: const Color.fromRGBO(235, 83, 83, 1),
+      ),
       child: const Text(
         'Discard',
         style: TextStyle(
@@ -127,65 +133,75 @@ class _NotificationScreenState extends State<NotificationScreen> {
       padding: const EdgeInsets.only(left: 20, right: 20, top: 20, bottom: 10),
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(15), color: Colors.white),
-      child: Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.only(bottom: 5),
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: [
-                Text(
-                  notifications[index].title,
-                  style: const TextStyle(
-                      fontFamily: AppTheme.poppinsFontFamily,
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold),
-                ),
-                const SizedBox(width: 7),
-                const Padding(
-                  padding: EdgeInsets.only(bottom: 10),
-                  child: Icon(Icons.circle, color: Colors.black, size: 7),
-                ),
-                const SizedBox(width: 7),
-                const Text(
-                  '10m',
-                  style: TextStyle(
-                      fontFamily: AppTheme.poppinsFontFamily,
-                      fontSize: 14,
-                      fontWeight: FontWeight.w400),
-                ),
-              ],
-            ),
+      child: InkWell(
+        onTap: () => CustomBottomSheet.showCustomBottomSheet(
+          context: context,
+          title: notifications[index].title,
+          body: NotificationDescription(
+            description: notifications[index].description,
           ),
-          Text(
-            notifications[index].description,
-            style: const TextStyle(
-                fontFamily: AppTheme.poppinsFontFamily,
-                fontSize: 14,
-                fontWeight: FontWeight.w400),
-            maxLines: 3,
-            overflow: TextOverflow.ellipsis,
-          )
-        ],
+        ),
+        child: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(bottom: 5),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  Text(
+                    notifications[index].title,
+                    style: const TextStyle(
+                        fontFamily: AppTheme.poppinsFontFamily,
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold),
+                  ),
+                  const SizedBox(width: 7),
+                  const Padding(
+                    padding: EdgeInsets.only(bottom: 10),
+                    child: Icon(Icons.circle, color: Colors.black, size: 7),
+                  ),
+                  const SizedBox(width: 7),
+                  const Text(
+                    '10m',
+                    style: TextStyle(
+                        fontFamily: AppTheme.poppinsFontFamily,
+                        fontSize: 14,
+                        fontWeight: FontWeight.w400),
+                  ),
+                ],
+              ),
+            ),
+            Text(
+              notifications[index].description,
+              style: const TextStyle(
+                  fontFamily: AppTheme.poppinsFontFamily,
+                  fontSize: 14,
+                  fontWeight: FontWeight.w400),
+              maxLines: 3,
+              overflow: TextOverflow.ellipsis,
+            )
+          ],
+        ),
       ),
     );
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: const CustomAppBar(),
+    return HomeScreen(
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const Padding(
             padding: EdgeInsets.only(left: 20, bottom: 25),
-            child: Text('Notifications',
-                textAlign: TextAlign.end,
-                style: TextStyle(
-                    fontFamily: AppTheme.poppinsFontFamily,
-                    fontSize: 26,
-                    fontWeight: FontWeight.bold)),
+            child: Text(
+              'Notifications',
+              textAlign: TextAlign.end,
+              style: TextStyle(
+                  fontFamily: AppTheme.poppinsFontFamily,
+                  fontSize: 26,
+                  fontWeight: FontWeight.w600),
+            ),
           ),
           Expanded(
             child: notificationsList(),
