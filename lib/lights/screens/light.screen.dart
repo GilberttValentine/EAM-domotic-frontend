@@ -1,3 +1,4 @@
+import 'package:eam_domotic_frontend/lights/light.module.dart';
 import 'package:eam_domotic_frontend/shared/shared.module.dart';
 import 'package:flutter/material.dart';
 
@@ -6,11 +7,8 @@ class LightScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      appBar: CustomAppBar(),
-      body: Center(
-        child: Text('LightScreen'),
-      ),
+    return const HomeScreen(
+      body: ListLights(),
     );
   }
 }
