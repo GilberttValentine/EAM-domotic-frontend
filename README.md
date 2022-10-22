@@ -12,7 +12,8 @@ Development:
   3. Run the following commands to run the project:
     - flutter pub get (To install the packages)
     - flutter run (To run the project in your phone or in Android emulator)
-  NOTES: 
+
+NOTES: 
   - If you use VsCode or Android Studio, you need to install the necessary plugins for development in Flutter and in turn they are necessary because it provides you    with the necessary tools to run the project.
   - If you don't have a phone, you needs to install Android device emulator in your PC
   
