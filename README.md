@@ -2,12 +2,12 @@
 Development for mobile application to domotic project from EAM University
 
 ## Getting Started
-You needs to following the next steps to run this project in development mode or in you mobile
+You need to follow the next steps to run this project in development mode or in you mobile
 
 NOTE: This application is only available in Android
 
 Development: 
-  1. Following the steps available in Flutter documentation to download the SKD https://docs.flutter.dev/get-started/install
+  1. Following the steps available in Flutter documentation to download the SDK https://docs.flutter.dev/get-started/install
   2. Once the first step is completed, clone this repository and run the project on your preference IDE
   3. Run the following commands to run the project:
     - flutter pub get (To install the packages)
@@ -19,3 +19,11 @@ NOTES:
   
 APK:
 https://drive.google.com/file/d/1UKJmXHyIW6TC4RwQ_beeTSlMsUs4fPAl/view?usp=sharing
+
+**User credentials**
+<br>
+The following credentials are mocked to test the app navigation
+<br><br>
+Username: GilberttValentine
+<br>
+Password: manuteam2022
