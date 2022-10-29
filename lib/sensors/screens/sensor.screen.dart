@@ -1,6 +1,5 @@
 import 'package:eam_domotic_frontend/shared/shared.module.dart';
 import 'package:flutter/material.dart';
-import 'package:eam_domotic_frontend/sensors/models/sensor.model.dart';
 import 'package:eam_domotic_frontend/sensors/services/sensor.service.dart';
 
 class SensorScreen extends StatelessWidget {
@@ -12,34 +11,43 @@ class SensorScreen extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
-        children: const [
-          Icon(
-            Icons.water_drop,
-            size: 80,
-            color: Color.fromRGBO(0, 0, 0, 0.5),
-          ),
-          Text(
-            "hume",
-            style: TextStyle(
-              fontFamily: AppTheme.poppinsFontFamily,
-              fontSize: 30,
-              fontWeight: FontWeight.w400,
-              color: Color.fromRGBO(0, 0, 0, 0.6),
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(right: 55),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: const [
+                Icon(
+                  Icons.ac_unit,
+                  size: 55,
+                  color: Color.fromRGBO(0, 0, 0, 1),
+                ),
+                Padding(
+                  padding: EdgeInsets.only(left: 30),
+                  child: Text(
+                    "21°C",
+                    style: TextStyle(
+                      fontFamily: AppTheme.poppinsFontFamily,
+                      fontSize: 40,
+                      fontWeight: FontWeight.w400,
+                      color: Color.fromRGBO(0, 0, 0, 1),
+                    ),
+                  ),
+                )
+              ],
             ),
           ),
-          Padding(padding: EdgeInsets.all(40)),
-          Icon(
-            Icons.ac_unit,
-            size: 80,
-            color: Color.fromRGBO(0, 0, 0, 0.5),
+          const Padding(
+            padding: EdgeInsets.symmetric(vertical: 25),
+            child: Divider(),
           ),
-          Text(
-            "temp",
+          const Text(
+            "79% humidity",
             style: TextStyle(
               fontFamily: AppTheme.poppinsFontFamily,
-              fontSize: 30,
+              fontSize: 22,
               fontWeight: FontWeight.w400,
-              color: Color.fromRGBO(0, 0, 0, 0.6),
+              color: Color.fromRGBO(0, 0, 0, 1),
             ),
           )
         ],
@@ -50,12 +58,12 @@ class SensorScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return HomeScreen(
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const Padding(
-            padding: EdgeInsets.only(left: 20, bottom: 25),
-            child: Text(
+      body: Padding(
+        padding: const EdgeInsets.only(left: 20, bottom: 25, right: 20),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Text(
               'Sensor',
               textAlign: TextAlign.end,
               style: TextStyle(
@@ -63,11 +71,11 @@ class SensorScreen extends StatelessWidget {
                   fontSize: 26,
                   fontWeight: FontWeight.w600),
             ),
-          ),
-          Expanded(
-            child: humedad(),
-          )
-        ],
+            Expanded(
+              child: humedad(),
+            )
+          ],
+        ),
       ),
     );
   }
