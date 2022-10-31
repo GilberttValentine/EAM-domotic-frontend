@@ -32,17 +32,21 @@ class _NotificationScreenState extends State<NotificationScreen> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
-        children: const [
-          Icon(
-            Icons.notifications,
-            size: 100,
-            color: Color.fromRGBO(0, 0, 0, 0.5),
+        children: const <Widget>[
+          RotationTransition(
+            turns: AlwaysStoppedAnimation(-10 / 360),
+            child: Icon(
+              Icons.notifications_none_outlined,
+              size: 100,
+              color: Color.fromRGBO(0, 0, 0, 0.5),
+            ),
           ),
+          Padding(padding: EdgeInsets.only(bottom: 10)),
           Text(
             "You don't have any notification",
             style: TextStyle(
               fontFamily: AppTheme.poppinsFontFamily,
-              fontSize: 20,
+              fontSize: 18,
               fontWeight: FontWeight.w400,
               color: Color.fromRGBO(0, 0, 0, 0.6),
             ),
@@ -54,24 +58,29 @@ class _NotificationScreenState extends State<NotificationScreen> {
 
   Widget showList() {
     return Container(
-      decoration: const BoxDecoration(
-        boxShadow: [
-          BoxShadow(
-            color: Color.fromRGBO(0, 0, 0, 0.05),
-            offset: Offset(0, 5),
-            blurRadius: 15,
-            spreadRadius: 0,
-          )
-        ],
-      ),
-      child: ListView.builder(
-        itemCount: notifications.length,
-        padding: const EdgeInsets.all(10),
-        itemBuilder: (BuildContext ctx, int index) {
-          return rowItem(context, index);
-        },
-      ),
-    );
+        decoration: const BoxDecoration(
+          boxShadow: [
+            BoxShadow(
+              color: Color.fromRGBO(0, 0, 0, 0.05),
+              offset: Offset(0, 5),
+              blurRadius: 15,
+              spreadRadius: 0,
+            )
+          ],
+        ),
+        child: NotificationListener<OverscrollIndicatorNotification>(
+          onNotification: (overscroll) {
+            overscroll.disallowIndicator();
+            return true;
+          },
+          child: ListView.builder(
+            itemCount: notifications.length,
+            padding: const EdgeInsets.only(right: 25, left: 25, bottom: 10),
+            itemBuilder: (BuildContext ctx, int index) {
+              return rowItem(context, index);
+            },
+          ),
+        ));
   }
 
   Widget rowItem(context, index) {
@@ -90,18 +99,19 @@ class _NotificationScreenState extends State<NotificationScreen> {
     return Container(
       alignment: Alignment.centerLeft,
       margin: const EdgeInsets.only(bottom: 20),
-      padding: const EdgeInsets.only(left: 100),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(15),
         color: const Color.fromRGBO(235, 83, 83, 1),
       ),
-      child: const Text(
-        'Discard',
-        style: TextStyle(
-            fontFamily: AppTheme.poppinsFontFamily,
-            fontSize: 18,
-            fontWeight: FontWeight.w400,
-            color: Colors.white),
+      child: const Center(
+        child: Text(
+          'Discard',
+          style: TextStyle(
+              fontFamily: AppTheme.poppinsFontFamily,
+              fontSize: 16,
+              fontWeight: FontWeight.w400,
+              color: Colors.white),
+        ),
       ),
     );
   }
@@ -110,27 +120,28 @@ class _NotificationScreenState extends State<NotificationScreen> {
     return Container(
       alignment: Alignment.centerRight,
       margin: const EdgeInsets.only(bottom: 20),
-      padding: const EdgeInsets.only(right: 100),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(15),
         color: const Color.fromRGBO(235, 83, 83, 1),
       ),
-      child: const Text(
-        'Discard',
-        style: TextStyle(
-            fontFamily: AppTheme.poppinsFontFamily,
-            fontSize: 18,
-            fontWeight: FontWeight.w400,
-            color: Colors.white),
+      child: const Center(
+        child: Text(
+          'Discard',
+          style: TextStyle(
+              fontFamily: AppTheme.poppinsFontFamily,
+              fontSize: 16,
+              fontWeight: FontWeight.w400,
+              color: Colors.white),
+        ),
       ),
     );
   }
 
   Widget notificationCard(context, index) {
     return Container(
-      margin: const EdgeInsets.only(bottom: 20),
-      height: 130,
-      padding: const EdgeInsets.only(left: 20, right: 20, top: 20, bottom: 10),
+      margin: const EdgeInsets.only(bottom: 25),
+      height: 140,
+      padding: const EdgeInsets.only(left: 20, right: 20, top: 20, bottom: 20),
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(15), color: Colors.white),
       child: InkWell(
@@ -156,9 +167,10 @@ class _NotificationScreenState extends State<NotificationScreen> {
                         fontWeight: FontWeight.bold),
                   ),
                   const SizedBox(width: 7),
-                  const Padding(
-                    padding: EdgeInsets.only(bottom: 10),
-                    child: Icon(Icons.circle, color: Colors.black, size: 7),
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 9),
+                    child: Icon(Icons.circle,
+                        color: Colors.black.withOpacity(0.9), size: 6.5),
                   ),
                   const SizedBox(width: 7),
                   const Text(
@@ -193,13 +205,13 @@ class _NotificationScreenState extends State<NotificationScreen> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const Padding(
-            padding: EdgeInsets.only(left: 20, bottom: 25),
+            padding: EdgeInsets.only(top: 10, right: 25, left: 25, bottom: 24),
             child: Text(
               'Notifications',
               textAlign: TextAlign.end,
               style: TextStyle(
                   fontFamily: AppTheme.poppinsFontFamily,
-                  fontSize: 26,
+                  fontSize: 24,
                   fontWeight: FontWeight.w600),
             ),
           ),

@@ -1,4 +1,5 @@
 import 'package:eam_domotic_frontend/shared/shared.module.dart';
+import 'package:eam_domotic_frontend/shared/widgets/buttons/custom_button.widget.dart';
 import 'package:flutter/material.dart';
 
 class CustomBottomSheet {
@@ -39,7 +40,7 @@ class CustomBottomSheet {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.fromLTRB(35, 15, 35, 30),
+                padding: const EdgeInsets.fromLTRB(35, 15, 35, 35),
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
@@ -56,11 +57,11 @@ class CustomBottomSheet {
                     ),
                     Row(
                       children: [
-                        aditionalButton == null
-                            ? const CancelButton()
-                            : const Expanded(child: CancelButton()),
+                        Expanded(
+                            child: CancelButton(
+                                hasAdditionalButton: aditionalButton != null)),
                         if (aditionalButton != null)
-                          Expanded(child: aditionalButton),
+                          Expanded(child: aditionalButton)
                       ],
                     ),
                   ],
@@ -85,15 +86,15 @@ class SheetTitle extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(bottom: 15),
+      padding: const EdgeInsets.only(bottom: 30),
       child: Align(
         alignment: Alignment.centerLeft,
         child: Text(
           title,
           style: const TextStyle(
-            fontSize: 26,
+            fontSize: 24,
             fontStyle: FontStyle.normal,
-            fontWeight: FontWeight.w600,
+            fontWeight: FontWeight.w700,
           ),
         ),
       ),
@@ -102,22 +103,23 @@ class SheetTitle extends StatelessWidget {
 }
 
 class CancelButton extends StatelessWidget {
+  final bool hasAdditionalButton;
+
   const CancelButton({
     Key? key,
+    required this.hasAdditionalButton,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(right: 10),
-      child: CustomOutlineButton(
-        color: AppTheme.defaultColor,
-        onTapTextColor: Colors.black,
+      padding: EdgeInsets.only(right: hasAdditionalButton ? 9 : 0),
+      child: CustomButton(
+        variant: 'outlined',
+        height: 55,
         text: 'Cancel',
         width: MediaQuery.of(context).size.width * 0.5,
-        onTap: () {
-          Navigator.pop(context);
-        },
+        event: () => Navigator.pop(context),
       ),
     );
   }
