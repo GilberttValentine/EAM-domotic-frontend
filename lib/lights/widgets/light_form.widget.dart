@@ -1,13 +1,14 @@
 import 'package:eam_domotic_frontend/lights/light.module.dart';
 import 'package:eam_domotic_frontend/shared/shared.module.dart';
+import 'package:eam_domotic_frontend/shared/widgets/forms/label.widget.dart';
 import 'package:flutter/material.dart';
 
 class LightForm extends StatefulWidget {
   final Function() notifyParent;
   final GlobalKey<FormState> formKey;
-  Lights light;
+  final Lights light;
 
-  LightForm({
+  const LightForm({
     Key? key,
     required this.formKey,
     required this.light,
@@ -26,14 +27,8 @@ class _LightFormState extends State<LightForm> {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         mainAxisAlignment: MainAxisAlignment.start,
-        children: [
-          Container(
-            alignment: Alignment.centerLeft,
-            child: const Text(
-              'Name',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-            ),
-          ),
+        children: <Widget>[
+          const Label(label: 'Name'),
           TextFormField(
             initialValue: widget.light.name,
             onSaved: (value) {
@@ -85,7 +80,7 @@ class EditButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(left: 10),
+      padding: const EdgeInsets.only(left: 9),
       child: CustomOutlineButton(
         onTap: () {
           if (formKey.currentState!.validate()) {
