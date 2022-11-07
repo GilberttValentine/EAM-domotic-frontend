@@ -1,15 +1,27 @@
 import 'dart:async';
 
+import 'package:eam_domotic_frontend/auth/auth.module.dart';
 import 'package:eam_domotic_frontend/shared/shared.module.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class AppIntroScreen extends StatelessWidget {
   const AppIntroScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    Timer(const Duration(seconds: 2), (() {
-      Navigator.popAndPushNamed(context, 'signIn');
+    Timer(const Duration(seconds: 2), (() async {
+      final authService = Provider.of<AuthService>(context, listen: false);
+
+      authService.readToken().then(
+        (token) {
+          if (token == '') {
+            Navigator.popAndPushNamed(context, 'signIn');
+          } else {
+            Navigator.popAndPushNamed(context, 'lights');
+          }
+        },
+      );
     }));
 
     return Scaffold(

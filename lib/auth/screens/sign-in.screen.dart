@@ -1,7 +1,9 @@
 import 'dart:async';
 
+import 'package:eam_domotic_frontend/auth/auth.module.dart';
 import 'package:eam_domotic_frontend/shared/shared.module.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class SignInScreen extends StatefulWidget {
   const SignInScreen({Key? key}) : super(key: key);
@@ -67,35 +69,33 @@ class _SignInScreenState extends State<SignInScreen>
           FocusManager.instance.primaryFocus?.unfocus();
         });
 
-        Timer(
-          const Duration(seconds: 2),
-          (() {
-            if (username.text == '' || password.text == '') {
-              showSnackBar('Invalid credentials', 'failed');
-              setState(() {
-                _hasErrors = true;
-              });
-            } else {
-              if (username.text == 'GilberttValentine' &&
-                  password.text == 'manuteam2022') {
-                showSnackBar('Welcome Back ${username.text}', 'success');
-                Navigator.popAndPushNamed(context, 'lights');
-              } else {
-                showSnackBar('Invalid credentials', 'failed');
-                setState(() {
-                  password.text = '';
-                  _hasErrors = true;
-                });
-              }
-            }
+        if (username.text == '' || password.text == '') {
+          showSnackBar('Invalid credentials', 'failed');
+          setState(() {
+            _hasErrors = true;
+          });
+        } else {
+          final authService = Provider.of<AuthService>(context, listen: false);
 
-            setState(
-              () {
-                _loading = false;
-                _signInTap = false;
-              },
-            );
-          }),
+          await authService
+              .loginUser(username.text, password.text)
+              .then((value) {
+            showSnackBar('Welcome Back ${username.text}', 'success');
+            Navigator.popAndPushNamed(context, 'lights');
+          }).onError((error, stackTrace) {
+            showSnackBar('Invalid credentials', 'failed');
+            setState(() {
+              password.text = '';
+              _hasErrors = true;
+            });
+          });
+        }
+
+        setState(
+          () {
+            _loading = false;
+            _signInTap = false;
+          },
         );
       }
 

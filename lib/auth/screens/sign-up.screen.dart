@@ -1,7 +1,9 @@
 import 'dart:async';
 
+import 'package:eam_domotic_frontend/auth/auth.module.dart';
 import 'package:eam_domotic_frontend/shared/shared.module.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({Key? key}) : super(key: key);
@@ -58,38 +60,42 @@ class _SignUpScreenState extends State<SignUpScreen> {
           FocusManager.instance.primaryFocus?.unfocus();
         });
 
-        Timer(const Duration(seconds: 2), (() {
-          if (username.text == '') {
-            showSnackBar('All fields are required', 'failed');
-            setState(() {
-              _hasErrors = true;
-            });
-          } else if (password.text == '' ||
-              confirmPassword.text == '' ||
-              password.text != confirmPassword.text) {
-            showSnackBar(
-                "The confirm password doesn't corresponding with the password entered",
-                'failed');
-            setState(() {
-              confirmPassword.text == '';
-              _hasErrors = true;
-            });
-          } else if (username.text == 'GilberttValentine') {
+        if (username.text == '') {
+          showSnackBar('All fields are required', 'failed');
+          setState(() {
+            _hasErrors = true;
+          });
+        } else if (password.text == '' ||
+            confirmPassword.text == '' ||
+            password.text != confirmPassword.text) {
+          showSnackBar(
+              "The confirm password doesn't corresponding with the password entered",
+              'failed');
+          setState(() {
+            confirmPassword.text == '';
+            _hasErrors = true;
+          });
+        } else {
+          final authService = Provider.of<AuthService>(context, listen: false);
+
+          await authService
+              .registerUser(username.text, password.text)
+              .then((value) {
+            showSnackBar('${username.text} Please login next', 'success');
+            Navigator.popAndPushNamed(context, 'signIn');
+          }).onError((error, stackTrace) {
             showSnackBar('Username has already taken', 'failed');
             setState(() {
               confirmPassword.text == '';
               _hasErrors = true;
             });
-          } else {
-            showSnackBar('${username.text} Please login next', 'success');
-            Navigator.popAndPushNamed(context, 'signIn');
-          }
+          });
 
           setState(() {
             _loading = false;
             _signUpTap = false;
           });
-        }));
+        }
       }
 
       return;
