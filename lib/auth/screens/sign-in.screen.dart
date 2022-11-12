@@ -1,7 +1,12 @@
 import 'dart:async';
 
 import 'package:eam_domotic_frontend/auth/auth.module.dart';
+import 'package:eam_domotic_frontend/shared/services/snack_bar_provider.dart';
 import 'package:eam_domotic_frontend/shared/shared.module.dart';
+import 'package:eam_domotic_frontend/shared/widgets/buttons/custom_button.widget.dart';
+import 'package:eam_domotic_frontend/shared/widgets/forms/form_control.widget.dart';
+import 'package:eam_domotic_frontend/shared/widgets/forms/label.widget.dart';
+import 'package:eam_domotic_frontend/shared/widgets/other/second_logo_app.widget.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -17,42 +22,57 @@ class _SignInScreenState extends State<SignInScreen>
   TextEditingController username = TextEditingController();
   TextEditingController password = TextEditingController();
 
-  bool _isObscure = true;
-  bool _signInTap = false;
-
   bool _hasErrors = false;
   bool _loading = false;
 
   @override
   Widget build(BuildContext context) {
-    void showSnackBar(String message, String status) {
-      final snackBar = SnackBar(
-        backgroundColor: status == 'failed'
-            ? AppTheme.dangerColor
-            : AppTheme.defaultSnackBarColor,
-        behavior: SnackBarBehavior.floating,
-        content: Text(
-          message,
-          style: const TextStyle(
-              fontFamily: AppTheme.poppinsFontFamily, fontSize: 14),
-        ),
+    void signIn() async {
+      setState(() {
+        _loading = true;
+        _hasErrors = false;
+      });
+
+      Timer(
+        const Duration(seconds: 3),
+        (() {
+          if ((username.text == 'user123' && password.text == 'user123') ||
+              (username.text == 'GilberttValentine' &&
+                  password.text == 'manuteam2022')) {
+            SnackBarProvider(
+                context: context, message: 'Welcome Back ${username.text}');
+            Navigator.popAndPushNamed(context, 'lights');
+          } else {
+            SnackBarProvider(
+                context: context,
+                message: 'Invalid credentials',
+                status: 'error');
+            setState(() {
+              _hasErrors = true;
+            });
+          }
+
+          setState(
+            () {
+              _loading = false;
+            },
+          );
+        }),
       );
 
-      ScaffoldMessenger.of(context).hideCurrentSnackBar();
-      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+      return;
     }
 
     void cleanForm() {
       setState(() {
         username.text = '';
         password.text = '';
-        _signInTap = false;
         _hasErrors = false;
         _loading = false;
       });
     }
 
-    void signInTapFunction(status) {
+/*     void signInTapFunction(status) {
       if (_loading != true) {
         setState(() {
           _signInTap = status;
@@ -100,7 +120,7 @@ class _SignInScreenState extends State<SignInScreen>
       }
 
       return;
-    }
+    } */
 
     return Scaffold(
       body: SafeArea(
@@ -114,65 +134,25 @@ class _SignInScreenState extends State<SignInScreen>
               child: SingleChildScrollView(
                 scrollDirection: Axis.vertical,
                 child: Container(
-                  padding: const EdgeInsets.fromLTRB(25, 40, 25, 40),
+                  padding: const EdgeInsets.fromLTRB(30, 65, 30, 60),
                   child: Column(children: <Widget>[
-                    SizedBox(
-                      width: 392.72727272727275,
-                      height: constraints.maxHeight * 0.062,
-                      child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: <Widget>[
-                            Container(
-                              padding: const EdgeInsets.fromLTRB(0, 0, 10, 0),
-                              child: Image.asset(
-                                'assets/icons/icon-app.png',
-                              ),
-                            ),
-                            const Text(
-                              'DOM',
-                              style: TextStyle(
-                                  fontFamily: AppTheme.logoFontFamily,
-                                  fontSize: 17,
-                                  fontWeight: FontWeight.bold,
-                                  color: Color.fromRGBO(40, 104, 245, 1),
-                                  letterSpacing: -0.4),
-                            ),
-                            const Text(
-                              'O',
-                              style: TextStyle(
-                                  fontFamily: AppTheme.logoFontFamily,
-                                  fontSize: 17,
-                                  fontWeight: FontWeight.bold,
-                                  color: Color.fromRGBO(199, 69, 69, 1),
-                                  letterSpacing: -0.4),
-                            ),
-                            const Text(
-                              'TICSOFT',
-                              style: TextStyle(
-                                  fontFamily: AppTheme.logoFontFamily,
-                                  fontSize: 17,
-                                  fontWeight: FontWeight.bold,
-                                  color: Color.fromRGBO(40, 104, 245, 1),
-                                  letterSpacing: -0.4),
-                            )
-                          ]),
-                    ),
+                    const SizedBox(
+                        width: 368, height: 50, child: SecondLogoApp()),
                     Container(
-                      width: 392.72727272727275,
-                      alignment: Alignment.topLeft,
+                      width: 368,
                       padding: const EdgeInsets.fromLTRB(0, 35, 0, 0),
                       child: const Text(
                         'Welcome Back',
                         style: TextStyle(
-                            fontSize: 28,
+                            fontSize: 30,
                             fontStyle: FontStyle.normal,
                             fontWeight: FontWeight.bold,
                             letterSpacing: -0.2),
                       ),
                     ),
                     Container(
-                      width: 392.72727272727275,
-                      alignment: Alignment.topLeft,
+                      width: 368,
+                      padding: const EdgeInsets.only(bottom: 60),
                       child: const Text(
                         'Sign in to continue',
                         style: TextStyle(
@@ -181,179 +161,50 @@ class _SignInScreenState extends State<SignInScreen>
                             letterSpacing: -0.2),
                       ),
                     ),
-                    Container(
-                      width: 392.72727272727275,
-                      padding: const EdgeInsets.only(top: 40, bottom: 5),
-                      alignment: Alignment.topLeft,
-                      child: const Text(
-                        'Username',
-                        style: TextStyle(
-                            fontSize: 18, fontWeight: FontWeight.bold),
-                      ),
-                    ),
-                    SizedBox(
-                      width: 392.72727272727275,
-                      child: TextField(
-                        style: const TextStyle(fontSize: 16),
-                        controller: username,
-                        autofocus: false,
-                        cursorColor: AppTheme.primaryColor,
-                        onTap: () {
-                          setState(() {
-                            _hasErrors = false;
-                          });
-                        },
-                        decoration: InputDecoration(
-                          errorStyle: const TextStyle(fontSize: 0),
-                          errorText: _hasErrors == true ? '' : null,
-                          contentPadding:
-                              const EdgeInsets.fromLTRB(15, 15, 15, 15),
-                          border: const OutlineInputBorder(
-                            borderRadius: BorderRadius.all(
-                              Radius.circular(10),
-                            ),
-                          ),
-                          hintText: 'Username',
-                          focusedBorder: const OutlineInputBorder(
-                            borderSide: BorderSide(
-                                width: 2, color: AppTheme.primaryColor),
-                            borderRadius: BorderRadius.all(
-                              Radius.circular(10),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                    Container(
-                      width: 392.72727272727275,
-                      padding: EdgeInsets.only(
-                          top: 30 - (_hasErrors == true ? 9 : 0), bottom: 5),
-                      alignment: Alignment.topLeft,
-                      child: const Text(
-                        'Password',
-                        style: TextStyle(
-                            fontSize: 18, fontWeight: FontWeight.bold),
-                      ),
-                    ),
-                    Container(
-                      width: 392.72727272727275,
-                      padding: EdgeInsets.only(
-                        bottom: 50 - (_hasErrors == true ? 9 : 0),
-                      ),
-                      child: TextField(
-                        style: const TextStyle(fontSize: 16),
-                        obscureText: _isObscure,
-                        controller: password,
-                        obscuringCharacter: '•',
-                        cursorColor: AppTheme.primaryColor,
-                        onTap: () {
-                          setState(() {
-                            _hasErrors = false;
-                          });
-                        },
-                        decoration: InputDecoration(
-                          errorStyle: const TextStyle(fontSize: 0),
-                          errorText: _hasErrors == true ? '' : null,
-                          contentPadding:
-                              const EdgeInsets.fromLTRB(15, 15, 15, 15),
-                          border: const OutlineInputBorder(
-                            borderRadius: BorderRadius.all(
-                              Radius.circular(10),
-                            ),
-                          ),
-                          hintText: 'Password',
-                          focusedBorder: const OutlineInputBorder(
-                            borderSide: BorderSide(
-                                width: 2, color: AppTheme.primaryColor),
-                            borderRadius: BorderRadius.all(
-                              Radius.circular(10),
-                            ),
-                          ),
-                          suffixIcon: IconButton(
-                            color: Colors.grey,
-                            icon: Icon(_isObscure == true
-                                ? Icons.visibility_outlined
-                                : Icons.visibility_off_outlined),
-                            onPressed: () {
-                              setState(
-                                () {
-                                  _isObscure = !_isObscure;
-                                },
-                              );
-                            },
-                          ),
-                        ),
-                      ),
+                    const Label(label: 'Username'),
+                    FormControl(
+                      controller: username,
+                      type: 'text',
+                      placeholder: 'Username',
+                      width: 368,
+                      hasErrors: _hasErrors,
+                      event: () {
+                        setState(() {
+                          _hasErrors = false;
+                        });
+                      },
                     ),
                     Padding(
-                      padding: const EdgeInsets.only(bottom: 15),
-                      child: Container(
-                        width: 392.72727272727275,
-                        height: 65,
-                        decoration: BoxDecoration(
-                          color: _loading == true
-                              ? AppTheme.primaryHoverColor
-                              : Colors.white,
-                          border: Border.all(color: AppTheme.primaryHoverColor),
-                          borderRadius: BorderRadius.circular(18),
-                        ),
-                        child: Material(
-                          color: Colors.transparent,
-                          child: InkWell(
-                            onTapCancel: () {
-                              signInTapFunction(false);
-                            },
-                            onTapUp: (details) {
-                              signInTapFunction(false);
-                            },
-                            onTapDown: (details) {
-                              signInTapFunction(true);
-                            },
-                            onTap: () {
-                              signIn();
-                            },
-                            highlightColor:
-                                AppTheme.primaryHoverColor.withOpacity(0.6),
-                            splashColor:
-                                AppTheme.primaryHoverColor.withOpacity(0.8),
-                            customBorder: RoundedRectangleBorder(
-                              side: const BorderSide(
-                                  color: AppTheme.primaryHoverColor),
-                              borderRadius: BorderRadius.circular(17),
-                            ),
-                            child: Center(
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: <Widget>[
-                                  if (_loading == true)
-                                    const SizedBox(
-                                      width: 20,
-                                      height: 20,
-                                      child: CircularProgressIndicator(
-                                          color: Colors.white, strokeWidth: 3),
-                                    ),
-                                  Padding(
-                                    padding: EdgeInsets.only(
-                                        left: _loading == true ? 10 : 0,
-                                        right: _loading == true ? 30 : 0),
-                                    child: Text(
-                                      'Sign In',
-                                      style: TextStyle(
-                                          fontSize: 16,
-                                          color: _signInTap == true
-                                              ? Colors.white
-                                              : Colors.black),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
+                        padding: EdgeInsets.only(
+                            bottom: 30 - (_hasErrors == true ? 9 : 0))),
+                    const Label(label: 'Password'),
+                    FormControl(
+                      controller: password,
+                      type: 'password',
+                      placeholder: 'Password',
+                      width: 368,
+                      hasErrors: _hasErrors,
+                      event: () {
+                        setState(() {
+                          _hasErrors = false;
+                        });
+                      },
+                    ),
+                    Padding(
+                        padding: EdgeInsets.only(
+                            bottom: 60 - (_hasErrors == true ? 9 : 0))),
+                    CustomButton(
+                        width: 368,
+                        variant: 'outlined',
+                        type: 'primary',
+                        event: () => signIn(),
+                        loading: _loading,
+                        text: 'Sign In'),
+                    const Padding(
+                      padding: EdgeInsets.only(bottom: 15),
                     ),
                     SizedBox(
-                      width: 392.72727272727275,
+                      width: 368,
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
@@ -361,6 +212,7 @@ class _SignInScreenState extends State<SignInScreen>
                             padding: const EdgeInsets.fromLTRB(0, 0, 5, 0),
                             child: const Text(
                               "Don't have an account?",
+                              style: TextStyle(fontSize: 15),
                             ),
                           ),
                           InkWell(
@@ -372,6 +224,7 @@ class _SignInScreenState extends State<SignInScreen>
                               'Sign Up',
                               style: TextStyle(
                                   fontWeight: FontWeight.bold,
+                                  fontSize: 15,
                                   color: AppTheme.primaryColor),
                             ),
                           )

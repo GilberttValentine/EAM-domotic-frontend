@@ -1,5 +1,6 @@
 import 'package:eam_domotic_frontend/auth/auth.module.dart';
 import 'package:eam_domotic_frontend/shared/shared.module.dart';
+import 'package:eam_domotic_frontend/shared/widgets/other/second_logo_app.widget.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -10,61 +11,23 @@ class CustomDrawer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return LayoutBuilder(
-      builder: (context, constraints) => Drawer(
-        width: constraints.maxWidth * 0.8,
-        elevation: 0,
-        backgroundColor: Colors.white,
-        child: SafeArea(
+    return SafeArea(
+      child: LayoutBuilder(
+        builder: (context, constraints) => Drawer(
+          width: constraints.maxWidth * 0.8,
+          elevation: 0,
+          backgroundColor: Colors.white,
           child: Column(
             children: [
-              SizedBox(
-                height: 140,
-                width: double.infinity,
-                child: Center(
-                  child: SizedBox(
-                    height: constraints.maxHeight * 0.062,
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisSize: MainAxisSize.min,
-                      children: <Widget>[
-                        Padding(
-                          padding: const EdgeInsets.fromLTRB(0, 0, 10, 0),
-                          child: Image.asset(
-                            'assets/icons/icon-app.png',
-                          ),
-                        ),
-                        const Text(
-                          'DOM',
-                          style: TextStyle(
-                              fontFamily: AppTheme.logoFontFamily,
-                              fontSize: 17,
-                              fontWeight: FontWeight.bold,
-                              color: Color.fromRGBO(40, 104, 245, 1),
-                              letterSpacing: -0.4),
-                        ),
-                        const Text(
-                          'O',
-                          style: TextStyle(
-                              fontFamily: AppTheme.logoFontFamily,
-                              fontSize: 17,
-                              fontWeight: FontWeight.bold,
-                              color: Color.fromRGBO(199, 69, 69, 1),
-                              letterSpacing: -0.4),
-                        ),
-                        const Text(
-                          'TICSOFT',
-                          style: TextStyle(
-                              fontFamily: AppTheme.logoFontFamily,
-                              fontSize: 17,
-                              fontWeight: FontWeight.bold,
-                              color: Color.fromRGBO(40, 104, 245, 1),
-                              letterSpacing: -0.4),
-                        )
-                      ],
-                    ),
-                  ),
-                ),
+              Padding(
+                padding: const EdgeInsets.only(top: 60, bottom: 35),
+                child: Container(
+                    transformAlignment: Alignment.center,
+                    width: constraints.maxWidth,
+                    height: 50,
+                    child: const SecondLogoApp(
+                      centered: true,
+                    )),
               ),
               ListView(
                 shrinkWrap: true,

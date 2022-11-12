@@ -1,5 +1,4 @@
 import 'package:eam_domotic_frontend/lights/light.module.dart';
-import 'package:eam_domotic_frontend/shared/shared.module.dart';
 import 'package:flutter/material.dart';
 
 class ListLights extends StatefulWidget {
@@ -17,24 +16,30 @@ class ListLightsState extends State<ListLights> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const Padding(
-          padding: EdgeInsets.only(left: 20, bottom: 25),
+          padding: EdgeInsets.only(right: 25, left: 25, bottom: 24),
           child: Text(
             'Lights',
             textAlign: TextAlign.end,
             style: TextStyle(
-              fontSize: 26,
+              fontSize: 24,
               fontWeight: FontWeight.w600,
             ),
           ),
         ),
         Expanded(
-          child: ListView.builder(
-            itemCount: lights.length,
-            itemBuilder: (BuildContext context, int index) {
-              return CardLights(lights[index]);
+          child: NotificationListener<OverscrollIndicatorNotification>(
+            onNotification: (overscroll) {
+              overscroll.disallowIndicator();
+              return true;
             },
+            child: ListView.builder(
+              itemCount: lights.length,
+              itemBuilder: (BuildContext context, int index) {
+                return CardLights(lights[index]);
+              },
+            ),
           ),
-        ),
+        )
       ],
     );
   }

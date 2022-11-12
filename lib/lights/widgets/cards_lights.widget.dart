@@ -20,16 +20,21 @@ class _CardLightsState extends State<CardLights> {
   @override
   Widget build(BuildContext context) {
     return Card(
+      shadowColor: const Color.fromRGBO(0, 0, 0, 0.25),
+      elevation: 5,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(15),
       ),
       color: widget.lights.color,
       margin: const EdgeInsets.only(
-        bottom: 30.0,
-        left: 20.0,
-        right: 20.0,
+        right: 25,
+        left: 25,
+        bottom: 25,
       ),
       child: InkWell(
+        customBorder: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(15),
+        ),
         onTap: () {
           CustomBottomSheet.showCustomBottomSheet(
             context: context,
@@ -45,8 +50,8 @@ class _CardLightsState extends State<CardLights> {
           );
         },
         child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
-          width: 50,
+          padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 20.0),
+          width: 380,
           height: 120,
           alignment: Alignment.topLeft,
           child: Row(
@@ -57,7 +62,7 @@ class _CardLightsState extends State<CardLights> {
                 textAlign: TextAlign.left,
                 style: const TextStyle(
                   fontSize: 18.0,
-                  fontWeight: FontWeight.w600,
+                  fontWeight: FontWeight.bold,
                 ),
               ),
               Transform.scale(

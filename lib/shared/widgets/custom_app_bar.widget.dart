@@ -11,7 +11,7 @@ class CustomAppBar extends StatelessWidget with PreferredSizeWidget {
   Widget build(BuildContext context) {
     return AppBar(
       leading: Padding(
-        padding: const EdgeInsets.only(left: 10),
+        padding: const EdgeInsets.only(left: 15),
         child: IconButton(
           iconSize: 30,
           onPressed: () => Scaffold.of(context).openDrawer(),
