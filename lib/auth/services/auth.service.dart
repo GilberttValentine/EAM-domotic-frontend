@@ -6,7 +6,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http_interceptor/http/http.dart';
 
 class AuthService extends ChangeNotifier {
-  final String _baseUrl = 'domoticappbackendservicedevelopment.onrender.com';
+  final String _baseUrl = 'domoticappbackendservicestaging.onrender.com';
 
   final storage = const FlutterSecureStorage();
 

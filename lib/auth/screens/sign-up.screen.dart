@@ -35,17 +35,24 @@ class _SignUpScreenState extends State<SignUpScreen> {
           FocusManager.instance.primaryFocus?.unfocus();
         });
 
-        /*if (username.text == '') {
-          showSnackBar('All fields are required', 'failed');
+        if (username.text == '') {
+          SnackBarProvider(
+              context: context,
+              message: 'All fields are required',
+              status: 'error');
+
           setState(() {
             _hasErrors = true;
           });
         } else if (password.text == '' ||
             confirmPassword.text == '' ||
             password.text != confirmPassword.text) {
-          showSnackBar(
-              "The confirm password doesn't corresponding with the password entered",
-              'failed');
+          SnackBarProvider(
+              context: context,
+              message:
+                  "The confirm password doesn't corresponding with the password entered",
+              status: 'error');
+
           setState(() {
             confirmPassword.text == '';
             _hasErrors = true;
@@ -56,35 +63,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
           await authService
               .registerUser(username.text, password.text)
               .then((value) {
-            showSnackBar('${username.text} Please login next', 'success');
+            SnackBarProvider(
+                context: context,
+                message: '${username.text} please login next');
             Navigator.popAndPushNamed(context, 'signIn');
           }).onError((error, stackTrace) {
-            showSnackBar('Username has already taken', 'failed');*/
-        Timer(const Duration(seconds: 2), (() {
-          if (username.text == '') {
-            SnackBarProvider(
-                context: context,
-                message: 'All fields are required',
-                status: 'error');
-
-            setState(() {
-              _hasErrors = true;
-            });
-          } else if (password.text == '' ||
-              confirmPassword.text == '' ||
-              password.text != confirmPassword.text) {
-            SnackBarProvider(
-                context: context,
-                message:
-                    "The confirm password doesn't corresponding with the password entered",
-                status: 'error');
-
-            setState(() {
-              confirmPassword.text == '';
-              _hasErrors = true;
-            });
-          } else if (username.text == 'GilberttValentine' ||
-              username.text == 'user123') {
             SnackBarProvider(
                 context: context,
                 message: 'Username has already taken',
@@ -93,18 +76,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
               confirmPassword.text == '';
               _hasErrors = true;
             });
-            /*});*/
-          } else {
-            SnackBarProvider(
-                context: context,
-                message: '${username.text} please login next');
-            Navigator.popAndPushNamed(context, 'signIn');
-          }
-
-          setState(() {
-            _loading = false;
           });
-        }));
+        }
+
+        setState(() {
+          _loading = false;
+        });
       }
 
       return;

@@ -33,31 +33,37 @@ class _SignInScreenState extends State<SignInScreen>
         _hasErrors = false;
       });
 
-      Timer(
-        const Duration(seconds: 3),
-        (() {
-          if ((username.text == 'user123' && password.text == 'user123') ||
-              (username.text == 'GilberttValentine' &&
-                  password.text == 'manuteam2022')) {
-            SnackBarProvider(
-                context: context, message: 'Welcome Back ${username.text}');
-            Navigator.popAndPushNamed(context, 'lights');
-          } else {
-            SnackBarProvider(
-                context: context,
-                message: 'Invalid credentials',
-                status: 'error');
-            setState(() {
-              _hasErrors = true;
-            });
-          }
+      if (username.text == '' || password.text == '') {
+        SnackBarProvider(
+            context: context, message: 'Invalid credentials', status: 'error');
+        setState(() {
+          _hasErrors = true;
+        });
+      } else {
+        final authService = Provider.of<AuthService>(context, listen: false);
 
-          setState(
-            () {
-              _loading = false;
-            },
+        await authService.loginUser(username.text, password.text).then((value) {
+          SnackBarProvider(
+            context: context,
+            message: 'Welcome Back ${username.text}',
           );
-        }),
+          Navigator.popAndPushNamed(context, 'lights');
+        }).onError((error, stackTrace) {
+          SnackBarProvider(
+            context: context,
+            message: 'Invalid credentials',
+            status: 'error',
+          );
+          setState(() {
+            _hasErrors = true;
+          });
+        });
+      }
+
+      setState(
+        () {
+          _loading = false;
+        },
       );
 
       return;
@@ -72,54 +78,12 @@ class _SignInScreenState extends State<SignInScreen>
       });
     }
 
-/*     void signInTapFunction(status) {
+    /* void signInTapFunction(status) {
       if (_loading != true) {
         setState(() {
           _signInTap = status;
         });
       }
-    }
-
-    void signIn() async {
-      if (_loading != true) {
-        setState(() {
-          _signInTap = true;
-          _loading = true;
-          _hasErrors = false;
-          FocusManager.instance.primaryFocus?.unfocus();
-        });
-
-        if (username.text == '' || password.text == '') {
-          showSnackBar('Invalid credentials', 'failed');
-          setState(() {
-            _hasErrors = true;
-          });
-        } else {
-          final authService = Provider.of<AuthService>(context, listen: false);
-
-          await authService
-              .loginUser(username.text, password.text)
-              .then((value) {
-            showSnackBar('Welcome Back ${username.text}', 'success');
-            Navigator.popAndPushNamed(context, 'lights');
-          }).onError((error, stackTrace) {
-            showSnackBar('Invalid credentials', 'failed');
-            setState(() {
-              password.text = '';
-              _hasErrors = true;
-            });
-          });
-        }
-
-        setState(
-          () {
-            _loading = false;
-            _signInTap = false;
-          },
-        );
-      }
-
-      return;
     } */
 
     return Scaffold(
