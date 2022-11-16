@@ -1,12 +1,13 @@
+import 'package:eam_domotic_frontend/sensors/models/sensor.model.dart';
+import 'package:eam_domotic_frontend/sensors/services/sensor.service.dart';
 import 'package:eam_domotic_frontend/shared/shared.module.dart';
 import 'package:flutter/material.dart';
-import 'package:eam_domotic_frontend/sensors/services/sensor.service.dart';
+import 'package:provider/provider.dart';
 
 class SensorScreen extends StatelessWidget {
   const SensorScreen({Key? key}) : super(key: key);
 
-  Widget humedad() {
-    String hum = sensorservice.getHumedad();
+  Widget sensor(Sensor sensor) {
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -16,19 +17,19 @@ class SensorScreen extends StatelessWidget {
             padding: const EdgeInsets.only(right: 55),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
-              children: const [
-                Icon(
-                  Icons.ac_unit,
+              children: [
+                const Icon(
+                  Icons.wb_sunny_outlined,
                   size: 55,
                   color: Color.fromRGBO(0, 0, 0, 1),
                 ),
                 Padding(
-                  padding: EdgeInsets.only(left: 30),
+                  padding: const EdgeInsets.only(left: 30),
                   child: Text(
-                    "21°C",
-                    style: TextStyle(
+                    '${sensor.getSensorState.getTemperature}°C',
+                    style: const TextStyle(
                       fontFamily: AppTheme.poppinsFontFamily,
-                      fontSize: 40,
+                      fontSize: 35,
                       fontWeight: FontWeight.w400,
                       color: Color.fromRGBO(0, 0, 0, 1),
                     ),
@@ -37,15 +38,18 @@ class SensorScreen extends StatelessWidget {
               ],
             ),
           ),
-          const Padding(
-            padding: EdgeInsets.symmetric(vertical: 25),
-            child: Divider(),
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 25),
+            child: Container(
+              height: 2,
+              color: Colors.black.withOpacity(0.15),
+            ),
           ),
-          const Text(
-            "79% humidity",
-            style: TextStyle(
+          Text(
+            '${sensor.getSensorState.getHumidity}% humidity',
+            style: const TextStyle(
               fontFamily: AppTheme.poppinsFontFamily,
-              fontSize: 22,
+              fontSize: 17,
               fontWeight: FontWeight.w400,
               color: Color.fromRGBO(0, 0, 0, 1),
             ),
@@ -57,22 +61,27 @@ class SensorScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final sensorService = Provider.of<SensorService>(context);
+
+    if (sensorService.isLoading) return const LoadingScreen();
+
     return HomeScreen(
       body: Padding(
-        padding: const EdgeInsets.only(left: 20, bottom: 25, right: 20),
+        padding:
+            const EdgeInsets.only(top: 10, left: 25, bottom: 25, right: 25),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
+          children: <Widget>[
             const Text(
-              'Sensor',
+              'Sensors',
               textAlign: TextAlign.end,
               style: TextStyle(
                   fontFamily: AppTheme.poppinsFontFamily,
-                  fontSize: 26,
+                  fontSize: 24,
                   fontWeight: FontWeight.w600),
             ),
             Expanded(
-              child: humedad(),
+              child: sensor(sensorService.sensorList[0]),
             )
           ],
         ),

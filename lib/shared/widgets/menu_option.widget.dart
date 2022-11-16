@@ -1,4 +1,3 @@
-import 'package:eam_domotic_frontend/shared/routes/app.routes.dart';
 import 'package:eam_domotic_frontend/shared/shared.module.dart';
 import 'package:flutter/material.dart';
 
@@ -14,7 +13,7 @@ class MenuOption extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final bool _selected = ModalRoute.of(context)!.settings.name == route.route;
+    final bool selected = ModalRoute.of(context)!.settings.name == route.route;
 
     return SizedBox(
       width: double.infinity,
@@ -26,7 +25,7 @@ class MenuOption extends StatelessWidget {
           child: ListTile(
             visualDensity: const VisualDensity(horizontal: 0, vertical: 2),
             contentPadding: EdgeInsets.zero,
-            selected: _selected,
+            selected: selected,
             selectedColor: Colors.black,
             selectedTileColor: AppTheme.primaryColor.withOpacity(0.3),
             title: Padding(
@@ -35,7 +34,7 @@ class MenuOption extends StatelessWidget {
                 route.name,
                 overflow: TextOverflow.ellipsis,
                 style: const TextStyle(
-                  fontSize: 18,
+                  fontSize: 17,
                 ),
               ),
             ),
@@ -66,7 +65,7 @@ class MenuOption extends StatelessWidget {
                       ),
                     ),
                   ),
-                if (_selected)
+                if (selected)
                   const DecoratedBox(
                     decoration: BoxDecoration(
                       color: AppTheme.primaryColor,
@@ -83,7 +82,7 @@ class MenuOption extends StatelessWidget {
           ),
         ),
         onTap: () {
-          if (_selected) {
+          if (selected) {
             Navigator.pop(context);
           } else {
             Navigator.pushReplacementNamed(context, route.route);

@@ -1,18 +1,18 @@
 import 'dart:convert';
 
-import 'package:eam_domotic_frontend/sensors/sensors_module.dart';
+import 'package:eam_domotic_frontend/lights/light.module.dart';
 import 'package:eam_domotic_frontend/shared/shared.module.dart';
 
-class Sensor {
+class Led {
   final String _id;
   final String _name;
   final int _number;
-  final Dispositive _dispositive;
-  final SensorState _sensorState;
   final Location _location;
+  final LedState _ledState;
+  final Dispositive _dispositive;
 
-  Sensor(this._id, this._name, this._number, this._dispositive,
-      this._sensorState, this._location);
+  Led(this._id, this._name, this._number, this._location, this._ledState,
+      this._dispositive);
 
   String get getId {
     return _id;
@@ -30,25 +30,25 @@ class Sensor {
     return _location;
   }
 
-  SensorState get getSensorState {
-    return _sensorState;
+  LedState get getLedState {
+    return _ledState;
   }
 
   Dispositive get getDispositive {
     return _dispositive;
   }
 
-  Sensor sensorFromJson(String str) => Sensor.fromJson(json.decode(str));
+  Led ledFromJson(String str) => Led.fromJson(json.decode(str));
 
-  String sensorToJson(Sensor data) => json.encode(data.toJson());
+  String ledToJson(Led data) => json.encode(data.toJson());
 
-  factory Sensor.fromJson(Map<String, dynamic> json) => Sensor(
+  factory Led.fromJson(Map<String, dynamic> json) => Led(
         json["id"],
         json["name"],
         json["number"],
-        Dispositive.fromJson(json["dispositive"]),
-        SensorState.fromJson(json["sensorState"]),
         Location.fromJson(json["location"]),
+        LedState.fromJson(json["ledState"]),
+        Dispositive.fromJson(json["dispositive"]),
       );
 
   Map<String, dynamic> toJson() => {
@@ -56,7 +56,7 @@ class Sensor {
         "name": _name,
         "number": _number,
         "dispositive": _dispositive.toJson(),
-        "sensorState": _sensorState.toJson(),
+        "ledState": _ledState.toJson(),
         "location": _location.toJson(),
       };
 }
