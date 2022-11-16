@@ -14,12 +14,19 @@ class AppIntroScreen extends StatelessWidget {
     Timer(const Duration(seconds: 2), (() async {
       final authService = Provider.of<AuthService>(context, listen: false);
 
-      authService.validateCurrentToken().then(
+      authService.readToken().then(
         (token) {
           if (token == '') {
             Navigator.popAndPushNamed(context, 'signIn');
           } else {
-            Navigator.popAndPushNamed(context, 'lights');
+            authService.validateCurrentToken().then((value) {
+              if (value) {
+                Navigator.popAndPushNamed(context, 'lights');
+              } else {
+                authService.logout();
+                Navigator.popAndPushNamed(context, 'signIn');
+              }
+            });
           }
         },
       );

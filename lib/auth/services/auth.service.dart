@@ -56,7 +56,7 @@ class AuthService extends ChangeNotifier {
     }
   }
 
-  Future<String?> validateCurrentToken() async {
+  Future<bool> validateCurrentToken() async {
     final token = await readToken();
 
     final Map<String, dynamic> authData = {
@@ -68,11 +68,9 @@ class AuthService extends ChangeNotifier {
     final response = await http.post(url, body: json.encode(authData));
 
     if (response.statusCode == 200) {
-      final decodeBody = json.decode(response.body)['message'];
-
-      return decodeBody['username'];
+      return true;
     } else {
-      throw Exception(json.decode(response.body)['message']);
+      return false;
     }
   }
 
