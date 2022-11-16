@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:eam_domotic_frontend/auth/auth.module.dart';
 import 'package:eam_domotic_frontend/shared/services/snack_bar_provider.dart';
 import 'package:eam_domotic_frontend/shared/shared.module.dart';
 import 'package:eam_domotic_frontend/shared/widgets/buttons/custom_button.widget.dart';
@@ -7,6 +8,7 @@ import 'package:eam_domotic_frontend/shared/widgets/forms/form_control.widget.da
 import 'package:eam_domotic_frontend/shared/widgets/forms/label.widget.dart';
 import 'package:eam_domotic_frontend/shared/widgets/other/second_logo_app.widget.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class SignInScreen extends StatefulWidget {
   const SignInScreen({Key? key}) : super(key: key);
@@ -31,31 +33,37 @@ class _SignInScreenState extends State<SignInScreen>
         _hasErrors = false;
       });
 
-      Timer(
-        const Duration(seconds: 3),
-        (() {
-          if ((username.text == 'user123' && password.text == 'user123') ||
-              (username.text == 'GilberttValentine' &&
-                  password.text == 'manuteam2022')) {
-            SnackBarProvider(
-                context: context, message: 'Welcome Back ${username.text}');
-            Navigator.popAndPushNamed(context, 'lights');
-          } else {
-            SnackBarProvider(
-                context: context,
-                message: 'Invalid credentials',
-                status: 'error');
-            setState(() {
-              _hasErrors = true;
-            });
-          }
+      if (username.text == '' || password.text == '') {
+        SnackBarProvider(
+            context: context, message: 'Invalid credentials', status: 'error');
+        setState(() {
+          _hasErrors = true;
+        });
+      } else {
+        final authService = Provider.of<AuthService>(context, listen: false);
 
-          setState(
-            () {
-              _loading = false;
-            },
+        await authService.loginUser(username.text, password.text).then((value) {
+          SnackBarProvider(
+            context: context,
+            message: 'Welcome Back ${username.text}',
           );
-        }),
+          Navigator.popAndPushNamed(context, 'lights');
+        }).onError((error, stackTrace) {
+          SnackBarProvider(
+            context: context,
+            message: 'Invalid credentials',
+            status: 'error',
+          );
+          setState(() {
+            _hasErrors = true;
+          });
+        });
+      }
+
+      setState(
+        () {
+          _loading = false;
+        },
       );
 
       return;
@@ -69,6 +77,14 @@ class _SignInScreenState extends State<SignInScreen>
         _loading = false;
       });
     }
+
+    /* void signInTapFunction(status) {
+      if (_loading != true) {
+        setState(() {
+          _signInTap = status;
+        });
+      }
+    } */
 
     return Scaffold(
       body: SafeArea(

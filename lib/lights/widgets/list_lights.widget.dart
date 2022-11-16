@@ -1,5 +1,9 @@
 import 'package:eam_domotic_frontend/lights/light.module.dart';
+import 'package:eam_domotic_frontend/lights/services/light.service.dart';
+import 'package:eam_domotic_frontend/shared/services/snack_bar_provider.dart';
+import 'package:eam_domotic_frontend/shared/shared.module.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class ListLights extends StatefulWidget {
   const ListLights({super.key});
@@ -9,9 +13,12 @@ class ListLights extends StatefulWidget {
 }
 
 class ListLightsState extends State<ListLights> {
-  List<Lights> lights = Lights.listLights();
   @override
   Widget build(BuildContext context) {
+    final lightService = Provider.of<LightService>(context);
+
+    if (lightService.isLoading) return const LoadingScreen();
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -33,9 +40,9 @@ class ListLightsState extends State<ListLights> {
               return true;
             },
             child: ListView.builder(
-              itemCount: lights.length,
+              itemCount: lightService.lights.length,
               itemBuilder: (BuildContext context, int index) {
-                return CardLights(lights[index]);
+                return CardLights(lightService.lights[index]);
               },
             ),
           ),

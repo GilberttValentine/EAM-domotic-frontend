@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:eam_domotic_frontend/auth/auth.module.dart';
 import 'package:eam_domotic_frontend/shared/services/snack_bar_provider.dart';
 import 'package:eam_domotic_frontend/shared/shared.module.dart';
 import 'package:eam_domotic_frontend/shared/widgets/buttons/custom_button.widget.dart';
@@ -7,6 +8,7 @@ import 'package:eam_domotic_frontend/shared/widgets/forms/form_control.widget.da
 import 'package:eam_domotic_frontend/shared/widgets/forms/label.widget.dart';
 import 'package:eam_domotic_frontend/shared/widgets/other/second_logo_app.widget.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({Key? key}) : super(key: key);
@@ -33,31 +35,39 @@ class _SignUpScreenState extends State<SignUpScreen> {
           FocusManager.instance.primaryFocus?.unfocus();
         });
 
-        Timer(const Duration(seconds: 2), (() {
-          if (username.text == '') {
+        if (username.text == '') {
+          SnackBarProvider(
+              context: context,
+              message: 'All fields are required',
+              status: 'error');
+
+          setState(() {
+            _hasErrors = true;
+          });
+        } else if (password.text == '' ||
+            confirmPassword.text == '' ||
+            password.text != confirmPassword.text) {
+          SnackBarProvider(
+              context: context,
+              message:
+                  "The confirm password doesn't corresponding with the password entered",
+              status: 'error');
+
+          setState(() {
+            confirmPassword.text == '';
+            _hasErrors = true;
+          });
+        } else {
+          final authService = Provider.of<AuthService>(context, listen: false);
+
+          await authService
+              .registerUser(username.text, password.text)
+              .then((value) {
             SnackBarProvider(
                 context: context,
-                message: 'All fields are required',
-                status: 'error');
-
-            setState(() {
-              _hasErrors = true;
-            });
-          } else if (password.text == '' ||
-              confirmPassword.text == '' ||
-              password.text != confirmPassword.text) {
-            SnackBarProvider(
-                context: context,
-                message:
-                    "The confirm password doesn't corresponding with the password entered",
-                status: 'error');
-
-            setState(() {
-              confirmPassword.text == '';
-              _hasErrors = true;
-            });
-          } else if (username.text == 'GilberttValentine' ||
-              username.text == 'user123') {
+                message: '${username.text} please login next');
+            Navigator.popAndPushNamed(context, 'signIn');
+          }).onError((error, stackTrace) {
             SnackBarProvider(
                 context: context,
                 message: 'Username has already taken',
@@ -66,17 +76,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
               confirmPassword.text == '';
               _hasErrors = true;
             });
-          } else {
-            SnackBarProvider(
-                context: context,
-                message: '${username.text} please login next');
-            Navigator.popAndPushNamed(context, 'signIn');
-          }
-
-          setState(() {
-            _loading = false;
           });
-        }));
+        }
+
+        setState(() {
+          _loading = false;
+        });
       }
 
       return;

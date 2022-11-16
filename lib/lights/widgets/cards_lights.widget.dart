@@ -1,10 +1,13 @@
 import 'package:eam_domotic_frontend/lights/light.module.dart';
+import 'package:eam_domotic_frontend/lights/services/light.service.dart';
+import 'package:eam_domotic_frontend/shared/services/snack_bar_provider.dart';
 import 'package:eam_domotic_frontend/shared/shared.module.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class CardLights extends StatefulWidget {
-  final Lights lights;
+  final Led lights;
 
   const CardLights(this.lights, {super.key});
 
@@ -19,13 +22,13 @@ class _CardLightsState extends State<CardLights> {
 
   @override
   Widget build(BuildContext context) {
+    isSwitched = widget.lights.getLedState.getOn;
     return Card(
       shadowColor: const Color.fromRGBO(0, 0, 0, 0.25),
       elevation: 5,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(15),
       ),
-      color: widget.lights.color,
       margin: const EdgeInsets.only(
         right: 25,
         left: 25,
@@ -58,7 +61,7 @@ class _CardLightsState extends State<CardLights> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                widget.lights.name,
+                widget.lights.getLocation.getName,
                 textAlign: TextAlign.left,
                 style: const TextStyle(
                   fontSize: 18.0,
@@ -69,12 +72,27 @@ class _CardLightsState extends State<CardLights> {
                 scale: 0.9,
                 child: CupertinoSwitch(
                   value: isSwitched,
-                  onChanged: (bool isChecked) {
-                    setState(
-                      () {
+                  onChanged: (bool isChecked) async {
+                    final authService =
+                        Provider.of<LightService>(context, listen: false);
+
+                    await authService
+                        .updateLightState(widget.lights.getId, isChecked)
+                        .then((value) {
+                      widget.lights.getLedState.setOn = isChecked;
+                      setState(() {
                         isSwitched = isChecked;
-                      },
-                    );
+                      });
+                    }).onError((error, stackTrace) {
+                      SnackBarProvider(
+                        context: context,
+                        message: error.toString(),
+                        status: 'error',
+                      );
+                      setState(() {
+                        isSwitched = !isChecked;
+                      });
+                    });
                   },
                 ),
               ),

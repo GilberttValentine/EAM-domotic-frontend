@@ -1,8 +1,28 @@
+import 'package:eam_domotic_frontend/auth/auth.module.dart';
+import 'package:eam_domotic_frontend/lights/services/light.service.dart';
+import 'package:eam_domotic_frontend/sensors/services/sensor.service.dart';
 import 'package:eam_domotic_frontend/shared/shared.module.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(AppState());
+}
+
+class AppState extends StatelessWidget {
+  const AppState({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => AuthService()),
+        ChangeNotifierProvider(create: (_) => LightService()),
+        ChangeNotifierProvider(create: (_) => SensorService()),
+      ],
+      child: const MyApp(),
+    );
+  }
 }
 
 class MyApp extends StatelessWidget {
