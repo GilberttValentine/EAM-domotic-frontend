@@ -1,10 +1,13 @@
+import 'package:eam_domotic_frontend/sensors/models/sensor.model.dart';
+import 'package:eam_domotic_frontend/sensors/services/sensor.service.dart';
 import 'package:eam_domotic_frontend/shared/shared.module.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class SensorScreen extends StatelessWidget {
   const SensorScreen({Key? key}) : super(key: key);
 
-  Widget sensor() {
+  Widget sensor(Sensor sensor) {
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -14,17 +17,17 @@ class SensorScreen extends StatelessWidget {
             padding: const EdgeInsets.only(right: 55),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
-              children: const [
-                Icon(
+              children: [
+                const Icon(
                   Icons.wb_sunny_outlined,
                   size: 55,
                   color: Color.fromRGBO(0, 0, 0, 1),
                 ),
                 Padding(
-                  padding: EdgeInsets.only(left: 30),
+                  padding: const EdgeInsets.only(left: 30),
                   child: Text(
-                    "21°C",
-                    style: TextStyle(
+                    '${sensor.getSensorState.getTemperature}°C',
+                    style: const TextStyle(
                       fontFamily: AppTheme.poppinsFontFamily,
                       fontSize: 35,
                       fontWeight: FontWeight.w400,
@@ -42,9 +45,9 @@ class SensorScreen extends StatelessWidget {
               color: Colors.black.withOpacity(0.15),
             ),
           ),
-          const Text(
-            "70% humidity",
-            style: TextStyle(
+          Text(
+            '${sensor.getSensorState.getHumidity}% humidity',
+            style: const TextStyle(
               fontFamily: AppTheme.poppinsFontFamily,
               fontSize: 17,
               fontWeight: FontWeight.w400,
@@ -58,6 +61,10 @@ class SensorScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final sensorService = Provider.of<SensorService>(context);
+
+    if (sensorService.isLoading) return const LoadingScreen();
+
     return HomeScreen(
       body: Padding(
         padding:
@@ -74,7 +81,7 @@ class SensorScreen extends StatelessWidget {
                   fontWeight: FontWeight.w600),
             ),
             Expanded(
-              child: sensor(),
+              child: sensor(sensorService.sensorList[0]),
             )
           ],
         ),

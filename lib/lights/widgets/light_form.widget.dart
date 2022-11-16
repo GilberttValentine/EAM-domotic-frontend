@@ -1,12 +1,15 @@
 import 'package:eam_domotic_frontend/lights/light.module.dart';
+import 'package:eam_domotic_frontend/lights/services/light.service.dart';
+import 'package:eam_domotic_frontend/shared/services/snack_bar_provider.dart';
 import 'package:eam_domotic_frontend/shared/shared.module.dart';
 import 'package:eam_domotic_frontend/shared/widgets/forms/label.widget.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class LightForm extends StatefulWidget {
   final Function() notifyParent;
   final GlobalKey<FormState> formKey;
-  final Lights light;
+  final Led light;
 
   const LightForm({
     Key? key,
@@ -22,6 +25,8 @@ class LightForm extends StatefulWidget {
 class _LightFormState extends State<LightForm> {
   @override
   Widget build(BuildContext context) {
+    final lightService = Provider.of<LightService>(context);
+
     return Form(
       key: widget.formKey,
       child: Column(
@@ -30,10 +35,21 @@ class _LightFormState extends State<LightForm> {
         children: <Widget>[
           const Label(label: 'Name'),
           TextFormField(
-            initialValue: widget.light.name,
+            initialValue: widget.light.getLocation.getName,
             onSaved: (value) {
-              widget.light.name = value!;
-              widget.notifyParent();
+              widget.light.getLocation.setName = value!;
+              lightService.updateLightLocation(widget.light.getLocation).then(
+                (value) {
+                  Navigator.pop(context);
+                  widget.notifyParent();
+                },
+              ).onError((error, stackTrace) {
+                SnackBarProvider(
+                  context: context,
+                  message: error.toString(),
+                  status: 'error',
+                );
+              });
             },
             validator: (value) {
               if (value == null || value.isEmpty) {
@@ -85,7 +101,6 @@ class EditButton extends StatelessWidget {
         onTap: () {
           if (formKey.currentState!.validate()) {
             formKey.currentState!.save();
-            Navigator.pop(context);
           }
         },
         color: AppTheme.primaryHoverColor,

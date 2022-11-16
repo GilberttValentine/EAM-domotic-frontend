@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:eam_domotic_frontend/shared/shared.module.dart';
 import 'package:flutter/material.dart';
@@ -16,7 +17,10 @@ class AuthService extends ChangeNotifier {
 
   Future<String?> registerUser(String email, String password) async {
     final Map<String, dynamic> authData = {
-      'user': {'username': email, 'password': password}
+      'user': {
+        'username': email,
+        'password': password,
+      }
     };
 
     final url = Uri.https(_baseUrl, '/api/v1/users');
@@ -24,7 +28,7 @@ class AuthService extends ChangeNotifier {
     final response = await http.post(url, body: json.encode(authData));
 
     if (response.statusCode == 200) {
-      return json.decode(response.body);
+      return json.decode(response.body)['message'];
     } else {
       throw Exception(json.decode(response.body)['message']);
     }
@@ -41,10 +45,30 @@ class AuthService extends ChangeNotifier {
     final response = await http.post(url, body: json.encode(authData));
 
     if (response.statusCode == 200) {
-      final decodeBody = json.decode(response.body);
+      final decodeBody = json.decode(response.body)['message'];
 
       await storage.write(key: 'token', value: decodeBody['token']);
       await storage.write(key: 'username', value: decodeBody['username']);
+
+      return decodeBody['username'];
+    } else {
+      throw Exception(json.decode(response.body)['message']);
+    }
+  }
+
+  Future<String?> validateCurrentToken() async {
+    final token = await readToken();
+
+    final Map<String, dynamic> authData = {
+      'token': token,
+    };
+
+    final url = Uri.https(_baseUrl, '/api/v1/users/validate');
+
+    final response = await http.post(url, body: json.encode(authData));
+
+    if (response.statusCode == 200) {
+      final decodeBody = json.decode(response.body)['message'];
 
       return decodeBody['username'];
     } else {

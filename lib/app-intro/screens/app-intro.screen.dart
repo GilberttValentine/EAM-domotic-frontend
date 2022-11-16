@@ -14,7 +14,7 @@ class AppIntroScreen extends StatelessWidget {
     Timer(const Duration(seconds: 2), (() async {
       final authService = Provider.of<AuthService>(context, listen: false);
 
-      authService.readToken().then(
+      authService.validateCurrentToken().then(
         (token) {
           if (token == '') {
             Navigator.popAndPushNamed(context, 'signIn');
