@@ -19,11 +19,3 @@ NOTES:
   
 APK:
 https://drive.google.com/file/d/1UKJmXHyIW6TC4RwQ_beeTSlMsUs4fPAl/view?usp=sharing
-
-**User credentials**
-<br>
-The following credentials are mocked to test the app navigation
-<br><br>
-Username: GilberttValentine
-<br>
-Password: manuteam2022
