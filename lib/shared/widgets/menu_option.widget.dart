@@ -1,4 +1,6 @@
 import 'package:eam_domotic_frontend/shared/shared.module.dart';
+import 'package:eam_domotic_frontend/lights/light.module.dart';
+import 'package:eam_domotic_frontend/sensors/services/sensor.service.dart';
 import 'package:flutter/material.dart';
 
 class MenuOption extends StatelessWidget {
@@ -82,6 +84,12 @@ class MenuOption extends StatelessWidget {
           ),
         ),
         onTap: () {
+          if (route.service is LightService) {
+            (route.service as LightService).getLights();
+          } else if (route.service is SensorService) {
+            (route.service as SensorService).getSensors();
+          }
+
           if (selected) {
             Navigator.pop(context);
           } else {

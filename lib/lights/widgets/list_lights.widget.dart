@@ -1,8 +1,5 @@
 import 'package:eam_domotic_frontend/lights/light.module.dart';
-import 'package:eam_domotic_frontend/lights/services/light.service.dart';
-import 'package:eam_domotic_frontend/shared/services/snack_bar_provider.dart';
 import 'package:eam_domotic_frontend/shared/shared.module.dart';
-import 'package:eam_domotic_frontend/shared/widgets/buttons/custom_button.widget.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -36,16 +33,14 @@ class ListLightsState extends State<ListLights> {
                   fontWeight: FontWeight.w600,
                 ),
               ),
-              CustomButton(
-                  width: 20,
-                  variant: 'outlined',
-                  type: 'primary',
-                  event: () {
-                    lightService.getLights();
-                    setState(() {});
-                  },
-                  loading: false,
-                  text: 'o'),
+              IconButton(
+                icon: const Icon(Icons.replay),
+                tooltip: 'Reload',
+                onPressed: () {
+                  lightService.getLights();
+                  setState(() {});
+                },
+              ),
             ],
           ),
         ),

@@ -11,6 +11,8 @@ class CustomDrawer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final appRoutes = AppRoutes(context);
+
     return SafeArea(
       child: LayoutBuilder(
         builder: (context, constraints) => Drawer(
@@ -32,7 +34,7 @@ class CustomDrawer extends StatelessWidget {
               ListView(
                 shrinkWrap: true,
                 children: [
-                  ...AppRoutes.routes.map((route) => route.drawerNavigable
+                  ...appRoutes.routes.map((route) => route.drawerNavigable
                       ? MenuOption(
                           route: route,
                         )

@@ -58,6 +58,7 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    final appRoutes = AppRoutes(context);
     return GestureDetector(
       onTap: () {
         FocusManager.instance.primaryFocus?.unfocus();
@@ -65,8 +66,8 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Domotic App',
-        initialRoute: AppRoutes.initialRoute,
-        routes: AppRoutes.getAppRoutes(),
+        initialRoute: appRoutes.initialRoute,
+        routes: appRoutes.getAppRoutes(),
         theme: AppTheme.lightTheme,
       ),
     );
