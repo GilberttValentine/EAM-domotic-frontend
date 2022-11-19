@@ -1,4 +1,5 @@
 import 'package:eam_domotic_frontend/lights/light.module.dart';
+import 'package:eam_domotic_frontend/notifications/notifications.module.dart';
 import 'package:eam_domotic_frontend/sensors/services/sensor.service.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:socket_io_client/socket_io_client.dart' as io;
@@ -19,9 +20,10 @@ class SocketService extends ChangeNotifier {
     });
   }
 
-  pushNotification() {
+  pushNotification(NotificationService notificationService) {
     socket.on('alarms', (data) {
-      return data;
+      notificationService.newNotifications = true;
+      notifyListeners();
     });
   }
 

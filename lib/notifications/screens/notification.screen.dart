@@ -1,8 +1,7 @@
-import 'package:eam_domotic_frontend/notifications/models/notification.model.dart';
 import 'package:eam_domotic_frontend/notifications/notifications.module.dart';
-import 'package:eam_domotic_frontend/notifications/services/notification.service.dart';
 import 'package:eam_domotic_frontend/shared/shared.module.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class NotificationScreen extends StatefulWidget {
   const NotificationScreen({super.key});
@@ -12,15 +11,16 @@ class NotificationScreen extends StatefulWidget {
 }
 
 class _NotificationScreenState extends State<NotificationScreen> {
-  List<NotificationApp> notifications = NotificationService.getNotifications();
+  late NotificationService notificationService;
 
   removeNotification(index) {
-    notifications.removeAt(index);
+    notificationService.notifications.removeAt(index);
     setState(() {});
   }
 
   Widget notificationsList() {
-    if (notifications.isEmpty) {
+    notificationService.newNotifications = false;
+    if (notificationService.notifications.isEmpty) {
       return noNotifications();
     } else {
       return showList();
@@ -74,7 +74,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
             return true;
           },
           child: ListView.builder(
-            itemCount: notifications.length,
+            itemCount: notificationService.notifications.length,
             padding: const EdgeInsets.only(right: 25, left: 25, bottom: 10),
             itemBuilder: (BuildContext ctx, int index) {
               return rowItem(context, index);
@@ -85,7 +85,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
 
   Widget rowItem(context, index) {
     return Dismissible(
-      key: Key(notifications[index].title),
+      key: Key(notificationService.notifications[index].getId),
       onDismissed: (direction) {
         removeNotification(index);
       },
@@ -98,7 +98,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
   Widget deleteLeft() {
     return Container(
       alignment: Alignment.centerLeft,
-      margin: const EdgeInsets.only(bottom: 20),
+      margin: const EdgeInsets.only(bottom: 25),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(15),
         color: const Color.fromRGBO(235, 83, 83, 1),
@@ -119,7 +119,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
   Widget deleteRigth() {
     return Container(
       alignment: Alignment.centerRight,
-      margin: const EdgeInsets.only(bottom: 20),
+      margin: const EdgeInsets.only(bottom: 25),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(15),
         color: const Color.fromRGBO(235, 83, 83, 1),
@@ -147,9 +147,9 @@ class _NotificationScreenState extends State<NotificationScreen> {
       child: InkWell(
         onTap: () => CustomBottomSheet.showCustomBottomSheet(
           context: context,
-          title: notifications[index].title,
+          title: 'Notification',
           body: NotificationDescription(
-            description: notifications[index].description,
+            description: notificationService.notifications[index].getMessage,
           ),
         ),
         child: Column(
@@ -159,9 +159,9 @@ class _NotificationScreenState extends State<NotificationScreen> {
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
-                  Text(
-                    notifications[index].title,
-                    style: const TextStyle(
+                  const Text(
+                    'Notification',
+                    style: TextStyle(
                         fontFamily: AppTheme.poppinsFontFamily,
                         fontSize: 18,
                         fontWeight: FontWeight.bold),
@@ -184,7 +184,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
               ),
             ),
             Text(
-              notifications[index].description,
+              notificationService.notifications[index].getId,
               style: const TextStyle(
                   fontFamily: AppTheme.poppinsFontFamily,
                   fontSize: 14,
@@ -200,6 +200,12 @@ class _NotificationScreenState extends State<NotificationScreen> {
 
   @override
   Widget build(BuildContext context) {
+    notificationService = Provider.of<NotificationService>(context);
+
+    if (notificationService.isLoading) {
+      return const LoadingScreen();
+    }
+
     return HomeScreen(
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
