@@ -1,5 +1,6 @@
 import 'package:eam_domotic_frontend/sensors/models/sensor.model.dart';
 import 'package:eam_domotic_frontend/sensors/services/sensor.service.dart';
+import 'package:eam_domotic_frontend/shared/services/socket_io_provider.dart';
 import 'package:eam_domotic_frontend/shared/shared.module.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -62,8 +63,11 @@ class SensorScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final sensorService = Provider.of<SensorService>(context);
-
     if (sensorService.isLoading) return const LoadingScreen();
+
+    final socketService = Provider.of<SocketService>(context);
+    socketService.getHumidity(sensorService);
+    socketService.getTemperature(sensorService);
 
     return HomeScreen(
       body: Padding(

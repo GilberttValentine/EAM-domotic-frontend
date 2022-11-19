@@ -9,7 +9,7 @@ import 'package:http_interceptor/http_interceptor.dart';
 class LightService extends ChangeNotifier {
   final String _baseUrl = 'domoticappbackendservicestaging.onrender.com';
   final storage = const FlutterSecureStorage();
-  final List<Led> lights = [];
+  List<Led> lights = [];
 
   bool isLoading = true;
 
@@ -32,12 +32,7 @@ class LightService extends ChangeNotifier {
     final response = await http.get(url);
 
     if (response.statusCode == 200) {
-      final List<dynamic> lightsMap = json.decode(response.body)['message'];
-      for (var value in lightsMap) {
-        final tempLight = Led.fromJson(value);
-        lights.add(tempLight);
-      }
-
+      listDynamicToListLeds(json.decode(response.body)['message']);
       isLoading = false;
       notifyListeners();
 
@@ -47,6 +42,14 @@ class LightService extends ChangeNotifier {
       notifyListeners();
 
       throw Exception(json.decode(response.body)['message']);
+    }
+  }
+
+  listDynamicToListLeds(List<dynamic> lightsMap) {
+    lights = [];
+    for (var value in lightsMap) {
+      final tempLight = Led.fromJson(value);
+      lights.add(tempLight);
     }
   }
 
