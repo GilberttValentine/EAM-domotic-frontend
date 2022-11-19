@@ -2,8 +2,8 @@ import 'dart:convert';
 
 class SensorState {
   final String _id;
-  final int _temperature;
-  final int _humidity;
+  int _temperature;
+  int _humidity;
 
   SensorState(this._id, this._temperature, this._humidity);
 
@@ -17,6 +17,14 @@ class SensorState {
 
   int get getHumidity {
     return _humidity;
+  }
+
+  set setTemperature(temperature) {
+    _temperature = temperature;
+  }
+
+  set setHumidity(humidity) {
+    _humidity = humidity;
   }
 
   SensorState sensorStateFromJson(String str) =>
