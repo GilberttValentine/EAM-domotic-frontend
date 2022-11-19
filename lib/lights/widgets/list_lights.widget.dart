@@ -1,4 +1,5 @@
 import 'package:eam_domotic_frontend/lights/light.module.dart';
+import 'package:eam_domotic_frontend/shared/services/socket_io_provider.dart';
 import 'package:eam_domotic_frontend/shared/shared.module.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -17,6 +18,9 @@ class ListLightsState extends State<ListLights> {
 
     if (lightService.isLoading) return const LoadingScreen();
 
+    final socketService = Provider.of<SocketService>(context);
+    socketService.getLights(lightService);
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -24,8 +28,8 @@ class ListLightsState extends State<ListLights> {
           padding: const EdgeInsets.only(right: 25, left: 25, bottom: 24),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              const Text(
+            children: const [
+              Text(
                 'Lights',
                 textAlign: TextAlign.end,
                 style: TextStyle(
@@ -33,14 +37,14 @@ class ListLightsState extends State<ListLights> {
                   fontWeight: FontWeight.w600,
                 ),
               ),
-              IconButton(
+              /* IconButton(
                 icon: const Icon(Icons.replay),
                 tooltip: 'Reload',
                 onPressed: () {
                   lightService.getLights();
                   setState(() {});
                 },
-              ),
+              ), */
             ],
           ),
         ),

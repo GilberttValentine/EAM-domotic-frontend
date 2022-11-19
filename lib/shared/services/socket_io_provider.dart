@@ -1,46 +1,41 @@
+import 'package:eam_domotic_frontend/lights/light.module.dart';
+import 'package:eam_domotic_frontend/sensors/services/sensor.service.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:socket_io_client/socket_io_client.dart' as io;
 
-class SocketService {
+class SocketService extends ChangeNotifier {
   io.Socket socket = io.io(
       'https://domoticappbackendservicestaging.onrender.com', <String, dynamic>{
     'autoConnect': true,
     'transports': ['websocket'],
   });
 
-  getLights() {
-    socket.on('leds', (data) {
-      debugPrint('LEDS');
-      debugPrint(data.toString());
+  var alarm = {};
 
-      return data;
+  getLights(LightService lightService) {
+    socket.on('leds', (data) {
+      lightService.listDynamicToListLeds(data);
+      notifyListeners();
     });
   }
 
   pushNotification() {
     socket.on('alarms', (data) {
-      debugPrint('ALARMS');
-      debugPrint(data.toString());
-
       return data;
     });
   }
 
-  getHumidity() {
+  getHumidity(SensorService sensorService) {
     socket.on('humidity', (data) {
-      debugPrint('HUMIDITY');
-      debugPrint(data.toString());
-
-      return data;
+      sensorService.sensorList[0].getSensorState.setHumidity = data;
+      notifyListeners();
     });
   }
 
-  getTemperature() {
+  getTemperature(SensorService sensorService) {
     socket.on('temperature', (data) {
-      debugPrint('TEMPERATURE');
-      debugPrint(data.toString());
-
-      return data;
+      sensorService.sensorList[0].getSensorState.setTemperature = data;
+      notifyListeners();
     });
   }
 }

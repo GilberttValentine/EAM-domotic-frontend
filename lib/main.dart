@@ -1,38 +1,12 @@
 import 'package:eam_domotic_frontend/auth/auth.module.dart';
 import 'package:eam_domotic_frontend/lights/services/light.service.dart';
 import 'package:eam_domotic_frontend/sensors/services/sensor.service.dart';
+import 'package:eam_domotic_frontend/shared/services/socket_io_provider.dart';
 import 'package:eam_domotic_frontend/shared/shared.module.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:socket_io_client/socket_io_client.dart' as io;
 
 void main() {
-  io.Socket socket = io.io(
-      'https://domoticappbackendservicestaging.onrender.com', <String, dynamic>{
-    'autoConnect': true,
-    'transports': ['websocket'],
-  });
-
-  socket.on('leds', (data) {
-    debugPrint('LEDS');
-    debugPrint(data.toString());
-  });
-
-  socket.on('alarms', (data) {
-    debugPrint('ALARMS');
-    debugPrint(data.toString());
-  });
-
-  socket.on('humidity', (data) {
-    debugPrint('HUMIDITY');
-    debugPrint(data.toString());
-  });
-
-  socket.on('temperature', (data) {
-    debugPrint('TEMPERATURE');
-    debugPrint(data.toString());
-  });
-
   runApp(const AppState());
 }
 
@@ -46,6 +20,7 @@ class AppState extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => AuthService()),
         ChangeNotifierProvider(create: (_) => LightService()),
         ChangeNotifierProvider(create: (_) => SensorService()),
+        ChangeNotifierProvider(create: (_) => SocketService()),
       ],
       child: const MyApp(),
     );
