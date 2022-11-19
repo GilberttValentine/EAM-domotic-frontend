@@ -15,11 +15,10 @@ class ListLightsState extends State<ListLights> {
   @override
   Widget build(BuildContext context) {
     final lightService = Provider.of<LightService>(context);
-
-    if (lightService.isLoading) return const LoadingScreen();
-
     final socketService = Provider.of<SocketService>(context);
     socketService.getLights(lightService);
+
+    if (lightService.isLoading) return const LoadingScreen();
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,

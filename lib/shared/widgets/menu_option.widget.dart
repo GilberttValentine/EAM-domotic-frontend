@@ -1,21 +1,26 @@
+import 'package:eam_domotic_frontend/notifications/notifications.module.dart';
+import 'package:eam_domotic_frontend/shared/services/socket_io_provider.dart';
 import 'package:eam_domotic_frontend/shared/shared.module.dart';
-import 'package:eam_domotic_frontend/lights/light.module.dart';
-import 'package:eam_domotic_frontend/sensors/services/sensor.service.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class MenuOption extends StatelessWidget {
   final AppRoute route;
-  final int notifications;
 
-  const MenuOption({
+  MenuOption({
     Key? key,
-    this.notifications = 0,
     required this.route,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final bool selected = ModalRoute.of(context)!.settings.name == route.route;
+
+    final notificationService = Provider.of<NotificationService>(context);
+    final socketService = Provider.of<SocketService>(context);
+    socketService.pushNotification(notificationService);
+
+    bool notifications = notificationService.newNotifications;
 
     return SizedBox(
       width: double.infinity,
@@ -43,7 +48,7 @@ class MenuOption extends StatelessWidget {
             trailing: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                if (notifications > 0)
+                if (route.name == "Notifications" && notifications == true)
                   Container(
                     margin: const EdgeInsets.only(right: 20),
                     child: DecoratedBox(
@@ -52,15 +57,15 @@ class MenuOption extends StatelessWidget {
                         shape: BoxShape.rectangle,
                         borderRadius: BorderRadius.circular(20),
                       ),
-                      child: SizedBox(
-                        width: 50,
+                      child: const SizedBox(
+                        width: 40,
                         height: 25,
                         child: Center(
                           child: Text(
-                            '$notifications',
-                            style: const TextStyle(
+                            'new',
+                            style: TextStyle(
                               color: Colors.white,
-                              fontSize: 13,
+                              fontSize: 12,
                             ),
                           ),
                         ),
@@ -84,12 +89,9 @@ class MenuOption extends StatelessWidget {
           ),
         ),
         onTap: () {
-          if (route.service is LightService) {
-            (route.service as LightService).getLights();
-          } else if (route.service is SensorService) {
-            (route.service as SensorService).getSensors();
+          if (route.route == 'notifications') {
+            notificationService.getNotifications();
           }
-
           if (selected) {
             Navigator.pop(context);
           } else {

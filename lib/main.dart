@@ -1,5 +1,6 @@
 import 'package:eam_domotic_frontend/auth/auth.module.dart';
 import 'package:eam_domotic_frontend/lights/services/light.service.dart';
+import 'package:eam_domotic_frontend/notifications/services/notification.service.dart';
 import 'package:eam_domotic_frontend/sensors/services/sensor.service.dart';
 import 'package:eam_domotic_frontend/shared/services/socket_io_provider.dart';
 import 'package:eam_domotic_frontend/shared/shared.module.dart';
@@ -20,6 +21,7 @@ class AppState extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => AuthService()),
         ChangeNotifierProvider(create: (_) => LightService()),
         ChangeNotifierProvider(create: (_) => SensorService()),
+        ChangeNotifierProvider(create: (_) => NotificationService()),
         ChangeNotifierProvider(create: (_) => SocketService()),
       ],
       child: const MyApp(),
