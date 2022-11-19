@@ -9,7 +9,7 @@ import 'package:http_interceptor/http_interceptor.dart';
 class SensorService extends ChangeNotifier {
   final String _baseUrl = 'domoticappbackendservicestaging.onrender.com';
   final storage = const FlutterSecureStorage();
-  final List<Sensor> sensorList = [];
+  List<Sensor> sensorList = [];
 
   bool isLoading = true;
 
@@ -24,6 +24,7 @@ class SensorService extends ChangeNotifier {
   }
 
   Future<List<Sensor>> getSensors() async {
+    sensorList = [];
     isLoading = true;
     notifyListeners();
 
