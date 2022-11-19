@@ -1,35 +1,57 @@
-import 'package:eam_domotic_frontend/notifications/models/notification.model.dart';
+import 'dart:convert';
 
-class NotificationService{
+import 'package:eam_domotic_frontend/notifications/notifications.module.dart';
+import 'package:eam_domotic_frontend/shared/interceptor/logged_interceptor.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:http_interceptor/http/http.dart';
 
-  // Mocked elements to test
-  static List<NotificationApp> getNotifications() {
-    return [
-      NotificationApp(
-        title: 'Kitchen', 
-        description: 'Lorem ipsum dolor sit amet, consectetur adipisc elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim', 
-        receivedAt: DateTime.now()
-      ),
-      NotificationApp(
-        title: 'Room', 
-        description: 'Lorem ipsum dolor sit amet, consectetur adipisc elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim', 
-        receivedAt: DateTime.now()
-      ),
-      NotificationApp(
-        title: 'Garage', 
-        description: 'Lorem ipsum dolor sit amet, consectetur adipisc elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim', 
-        receivedAt: DateTime.now()
-      ),
-      NotificationApp(
-        title: 'Courtyard', 
-        description: 'Lorem ipsum dolor sit amet, consectetur adipisc elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim', 
-        receivedAt: DateTime.now()
-      ),
-      NotificationApp(
-        title: 'Attic', 
-        description: 'Lorem ipsum dolor sit amet, consectetur adipisc elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim', 
-        receivedAt: DateTime.now()
-      )
-    ];
+class NotificationService extends ChangeNotifier {
+  List<NotificationApp> notifications = [];
+  var newNotifications = false;
+
+  final String _baseUrl = 'domoticappbackendservicestaging.onrender.com';
+  final storage = const FlutterSecureStorage();
+
+  bool isLoading = true;
+
+  final http = InterceptedHttp.build(
+    interceptors: [
+      LoggedInterceptor(),
+    ],
+  );
+
+  NotificationService() {
+    getNotifications();
+  }
+
+  Future<List<NotificationApp>> getNotifications() async {
+    isLoading = true;
+    notifyListeners();
+
+    final url = Uri.https(_baseUrl, '/api/v1/alarms/');
+
+    final response = await http.get(url);
+
+    if (response.statusCode == 200) {
+      listDynamicToListLeds(json.decode(response.body)['message']);
+      isLoading = false;
+      notifyListeners();
+
+      return notifications;
+    } else {
+      isLoading = false;
+      notifyListeners();
+
+      throw Exception(json.decode(response.body)['message']);
+    }
+  }
+
+  listDynamicToListLeds(List<dynamic> lightsMap) {
+    notifications = [];
+    for (var value in lightsMap) {
+      final tempNotification = NotificationApp.fromJson(value);
+      notifications.add(tempNotification);
+    }
   }
 }
