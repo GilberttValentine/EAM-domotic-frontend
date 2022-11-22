@@ -7,7 +7,7 @@ import 'package:provider/provider.dart';
 class MenuOption extends StatelessWidget {
   final AppRoute route;
 
-  MenuOption({
+  const MenuOption({
     Key? key,
     required this.route,
   }) : super(key: key);

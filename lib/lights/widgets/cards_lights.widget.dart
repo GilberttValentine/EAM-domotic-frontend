@@ -1,5 +1,4 @@
 import 'package:eam_domotic_frontend/lights/light.module.dart';
-import 'package:eam_domotic_frontend/lights/services/light.service.dart';
 import 'package:eam_domotic_frontend/shared/services/snack_bar_provider.dart';
 import 'package:eam_domotic_frontend/shared/shared.module.dart';
 import 'package:flutter/cupertino.dart';
