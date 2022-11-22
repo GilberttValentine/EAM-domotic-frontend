@@ -11,8 +11,6 @@ class SocketService extends ChangeNotifier {
     'transports': ['websocket'],
   });
 
-  var alarm = {};
-
   getLights(LightService lightService) {
     socket.on('leds', (data) {
       lightService.listDynamicToListLeds(data);

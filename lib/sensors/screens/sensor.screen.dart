@@ -63,6 +63,7 @@ class SensorScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final sensorService = Provider.of<SensorService>(context);
+
     if (sensorService.isLoading) return const LoadingScreen();
 
     final socketService = Provider.of<SocketService>(context);
