@@ -54,4 +54,20 @@ class NotificationService extends ChangeNotifier {
       notifications.add(tempNotification);
     }
   }
+
+  Future<bool> deleteAlarm(int index) async {
+    final url = Uri.https(_baseUrl, '/api/v1/alarms');
+
+    final Map<String, dynamic> notification = {
+      'id': notifications[index].getId
+    };
+
+    final response = await http.delete(url, body: json.encode(notification));
+
+    if (response.statusCode == 200) {
+      return true;
+    } else {
+      return false;
+    }
+  }
 }
