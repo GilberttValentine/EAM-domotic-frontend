@@ -35,17 +35,9 @@ class _NotificationScreenState extends State<NotificationScreen> {
     Duration diff = DateTime.now().difference(recived);
     if (diff.inMinutes > 60) {
       if (diff.inHours > 24) {
-        if (diff.inDays > 1) {
-          return "${diff.inDays} d";
-        } else {
-          return "${diff.inDays} d";
-        }
+        return "${diff.inDays} d";
       } else {
-        if (diff.inHours > 1) {
-          return "${diff.inHours} h";
-        } else {
-          return "${diff.inHours} h";
-        }
+        return "${diff.inHours} h";
       }
     } else {
       if (diff.inMinutes > 1) {
@@ -225,14 +217,16 @@ class _NotificationScreenState extends State<NotificationScreen> {
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  notificationService.notifications[index].getMessage,
-                  style: const TextStyle(
-                      fontFamily: AppTheme.poppinsFontFamily,
-                      fontSize: 14,
-                      fontWeight: FontWeight.w400),
-                  maxLines: 3,
-                  overflow: TextOverflow.ellipsis,
+                Flexible(
+                  child: Text(
+                    notificationService.notifications[index].getMessage,
+                    style: const TextStyle(
+                        fontFamily: AppTheme.poppinsFontFamily,
+                        fontSize: 14,
+                        fontWeight: FontWeight.w400),
+                    maxLines: 3,
+                    overflow: TextOverflow.ellipsis,
+                  ),
                 ),
               ],
             )
