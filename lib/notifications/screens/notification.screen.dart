@@ -1,7 +1,9 @@
 import 'package:eam_domotic_frontend/notifications/notifications.module.dart';
+import 'package:eam_domotic_frontend/shared/services/snack_bar_provider.dart';
 import 'package:eam_domotic_frontend/shared/shared.module.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
 
 class NotificationScreen extends StatefulWidget {
   const NotificationScreen({super.key});
@@ -14,8 +16,43 @@ class _NotificationScreenState extends State<NotificationScreen> {
   late NotificationService notificationService;
 
   removeNotification(index) {
-    notificationService.notifications.removeAt(index);
-    setState(() {});
+    notificationService.deleteAlarm(index).then((value) {
+      if (value) {
+        notificationService.notifications.removeAt(index);
+        setState(() {});
+      } else {
+        SnackBarProvider(
+          context: context, message: 'An error has occurred', status: 'error'
+        );
+        notificationService.notifications.add(notificationService.notifications.removeAt(index));
+        setState(() {});
+      }
+    });
+  }
+
+  String calculateTime(DateTime recived) {
+    Duration diff = DateTime.now().difference(recived);
+    if(diff.inMinutes > 60) {
+      if (diff.inHours > 24) {
+        if(diff.inDays > 1) {
+          return "${diff.inDays} days ago";
+        } else {
+          return "${diff.inDays} day ago";
+        }
+      }else {
+        if(diff.inHours > 1) {
+          return "${diff.inHours} hours ago";
+        } else {
+          return "${diff.inHours} hour ago";
+        }
+      }
+    } else {
+      if(diff.inMinutes > 1) {
+          return "${diff.inMinutes} minutes ago";
+        } else {
+          return "${diff.inMinutes} minute ago";
+        }
+    }
   }
 
   Widget notificationsList() {
@@ -147,7 +184,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
       child: InkWell(
         onTap: () => CustomBottomSheet.showCustomBottomSheet(
           context: context,
-          title: 'Notification',
+          title: notificationService.notifications[index].getTitle,
           body: NotificationDescription(
             description: notificationService.notifications[index].getMessage,
           ),
@@ -159,9 +196,9 @@ class _NotificationScreenState extends State<NotificationScreen> {
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
-                  const Text(
-                    'Notification',
-                    style: TextStyle(
+                  Text(
+                    notificationService.notifications[index].getTitle,
+                    style: const TextStyle(
                         fontFamily: AppTheme.poppinsFontFamily,
                         fontSize: 18,
                         fontWeight: FontWeight.bold),
@@ -173,9 +210,9 @@ class _NotificationScreenState extends State<NotificationScreen> {
                         color: Colors.black.withOpacity(0.9), size: 6.5),
                   ),
                   const SizedBox(width: 7),
-                  const Text(
-                    '10m',
-                    style: TextStyle(
+                  Text(
+                    calculateTime(notificationService.notifications[index].getCreatedAt),
+                    style: const TextStyle(
                         fontFamily: AppTheme.poppinsFontFamily,
                         fontSize: 14,
                         fontWeight: FontWeight.w400),
@@ -183,14 +220,19 @@ class _NotificationScreenState extends State<NotificationScreen> {
                 ],
               ),
             ),
-            Text(
-              notificationService.notifications[index].getId,
-              style: const TextStyle(
-                  fontFamily: AppTheme.poppinsFontFamily,
-                  fontSize: 14,
-                  fontWeight: FontWeight.w400),
-              maxLines: 3,
-              overflow: TextOverflow.ellipsis,
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  notificationService.notifications[index].getMessage,
+                  style: const TextStyle(
+                      fontFamily: AppTheme.poppinsFontFamily,
+                      fontSize: 14,
+                      fontWeight: FontWeight.w400),
+                  maxLines: 3,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ],
             )
           ],
         ),
