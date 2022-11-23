@@ -1,5 +1,6 @@
 import 'package:badges/badges.dart';
 import 'package:eam_domotic_frontend/notifications/notifications.module.dart';
+import 'package:eam_domotic_frontend/shared/routes/app.routes.dart';
 import 'package:eam_domotic_frontend/shared/services/socket_io_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -25,7 +26,11 @@ class CustomAppBar extends StatelessWidget with PreferredSizeWidget {
           elevation: 0,
           position: const BadgePosition(top: 14, start: 28),
           padding: EdgeInsets.all(
-              notificationService.newNotifications == false ? 0 : 6.5),
+              ModalRoute.of(context)!.settings.name == "notifications"
+                  ? 0
+                  : notificationService.newNotifications == false
+                      ? 0
+                      : 6.5),
           badgeContent: const Text(""),
           child: IconButton(
             iconSize: 30,
