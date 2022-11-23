@@ -48,7 +48,9 @@ class MenuOption extends StatelessWidget {
             trailing: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                if (route.name == "Notifications" && notifications == true)
+                if (route.name == "Notifications" &&
+                    ModalRoute.of(context)!.settings.name != "notifications" &&
+                    notifications == true)
                   Container(
                     margin: const EdgeInsets.only(right: 20),
                     child: DecoratedBox(

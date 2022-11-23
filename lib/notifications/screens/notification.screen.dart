@@ -4,7 +4,6 @@ import 'package:eam_domotic_frontend/shared/shared.module.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-
 class NotificationScreen extends StatefulWidget {
   const NotificationScreen({super.key});
 
@@ -22,9 +21,11 @@ class _NotificationScreenState extends State<NotificationScreen> {
         setState(() {});
       } else {
         SnackBarProvider(
-          context: context, message: 'An error has occurred', status: 'error'
-        );
-        notificationService.notifications.add(notificationService.notifications.removeAt(index));
+            context: context,
+            message: 'An error has occurred',
+            status: 'error');
+        notificationService.notifications
+            .add(notificationService.notifications.removeAt(index));
         setState(() {});
       }
     });
@@ -32,26 +33,26 @@ class _NotificationScreenState extends State<NotificationScreen> {
 
   String calculateTime(DateTime recived) {
     Duration diff = DateTime.now().difference(recived);
-    if(diff.inMinutes > 60) {
+    if (diff.inMinutes > 60) {
       if (diff.inHours > 24) {
-        if(diff.inDays > 1) {
-          return "${diff.inDays} days ago";
+        if (diff.inDays > 1) {
+          return "${diff.inDays} d";
         } else {
-          return "${diff.inDays} day ago";
+          return "${diff.inDays} d";
         }
-      }else {
-        if(diff.inHours > 1) {
-          return "${diff.inHours} hours ago";
+      } else {
+        if (diff.inHours > 1) {
+          return "${diff.inHours} h";
         } else {
-          return "${diff.inHours} hour ago";
+          return "${diff.inHours} h";
         }
       }
     } else {
-      if(diff.inMinutes > 1) {
-          return "${diff.inMinutes} minutes ago";
-        } else {
-          return "${diff.inMinutes} minute ago";
-        }
+      if (diff.inMinutes > 1) {
+        return "${diff.inMinutes} m";
+      } else {
+        return "now";
+      }
     }
   }
 
@@ -211,7 +212,8 @@ class _NotificationScreenState extends State<NotificationScreen> {
                   ),
                   const SizedBox(width: 7),
                   Text(
-                    calculateTime(notificationService.notifications[index].getCreatedAt),
+                    calculateTime(
+                        notificationService.notifications[index].getCreatedAt),
                     style: const TextStyle(
                         fontFamily: AppTheme.poppinsFontFamily,
                         fontSize: 14,
